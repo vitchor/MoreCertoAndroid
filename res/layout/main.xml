@@ -5,6 +5,37 @@
 	android:layout_height="fill_parent"
 	>
 	
+	<LinearLayout 
+		android:id="@+id/search_view"
+		android:layout_width="fill_parent" 
+		android:layout_height="45dp"
+		android:padding="5dp" 
+		android:orientation="horizontal"
+		android:background="@drawable/toolbar"
+		>
+
+		<EditText 
+			android:id="@+id/search_field"
+			android:layout_width="wrap_content" 
+			android:layout_height="fill_parent"
+			android:background="@drawable/search_bar_border"
+			android:layout_weight="1" 
+			android:textSize="14dp" 
+			android:inputType="none"
+			android:autoText="false" 
+			/>
+
+		<Button 
+			android:id="@+id/search_button" 
+			style="@style/toolbarButton"
+			android:layout_width="wrap_content" 
+			android:layout_height="fill_parent"
+			android:layout_marginLeft="7dp" 
+			android:text="BUSCAR" 
+			/>
+
+	</LinearLayout>
+	
 	<com.google.android.maps.MapView
 		android:id="@+id/map_view"
 		android:layout_width="fill_parent"
