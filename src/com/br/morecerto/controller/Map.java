@@ -1,11 +1,12 @@
-package com.br.morecerto;
+package com.br.morecerto.controller;
 
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
-import com.br.morecerto.controller.GoogleService;
+import com.br.morecerto.R;
+import com.br.morecerto.controller.service.GoogleService;
 import com.google.android.maps.MapActivity;
 
 public class Map extends MapActivity implements TextWatcher {

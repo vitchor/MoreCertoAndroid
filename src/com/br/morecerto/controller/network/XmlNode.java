@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.br.morecerto.controller.utilities.NumberUtils;
+import com.br.morecerto.controller.utility.NumberUtils;
 
 public class XmlNode extends DataNode {
 	

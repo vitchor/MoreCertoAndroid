@@ -1,4 +1,4 @@
-package com.br.morecerto.controller.utilities;
+package com.br.morecerto.controller.utility;
 
 import java.io.IOException;
 import java.io.InputStream;

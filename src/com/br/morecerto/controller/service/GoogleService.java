@@ -1,4 +1,4 @@
-package com.br.morecerto.controller;
+package com.br.morecerto.controller.service;
 
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -10,8 +10,8 @@ import com.br.morecerto.controller.network.Downloader;
 import com.br.morecerto.controller.network.OnDownloadListener;
 import com.br.morecerto.controller.network.Response;
 import com.br.morecerto.controller.network.UrlAddress;
-import com.br.morecerto.controller.utilities.GeoUtil;
-import com.br.morecerto.controller.utilities.Util;
+import com.br.morecerto.controller.utility.GeoUtil;
+import com.br.morecerto.controller.utility.Util;
 import com.google.android.maps.GeoPoint;
 
 public class GoogleService {

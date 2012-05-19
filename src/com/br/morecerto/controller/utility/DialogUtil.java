@@ -1,4 +1,4 @@
-package com.br.morecerto.controller.utilities;
+package com.br.morecerto.controller.utility;
 
 import android.app.Dialog;
 import android.content.Context;

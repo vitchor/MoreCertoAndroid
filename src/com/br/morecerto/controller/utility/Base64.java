@@ -146,7 +146,7 @@
  * @version 2.3.7
  */
 
-package com.br.morecerto.controller.utilities;
+package com.br.morecerto.controller.utility;
 
 public class Base64
 {
