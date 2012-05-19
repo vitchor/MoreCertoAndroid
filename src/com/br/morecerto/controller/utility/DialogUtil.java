@@ -7,19 +7,19 @@ import android.graphics.Bitmap;
 import android.view.Gravity;
 import android.widget.Toast;
 
-import com.br.morecerto.view.UberLoadingDialog;
-import com.br.morecerto.view.UberQuestionDialog;
+import com.br.morecerto.view.IdearLoadingDialog;
+import com.br.morecerto.view.IdearQuestionDialog;
 
 public class DialogUtil {
 	
 	public static Dialog createLoadingDialog(Context context, String message) {
-		final UberLoadingDialog loadingDialog = new UberLoadingDialog(context);
+		final IdearLoadingDialog loadingDialog = new IdearLoadingDialog(context);
 		loadingDialog.setMessage(message);
 		return loadingDialog;
 	}
 
 	public static void showAlert(Context context, String message) {
-		final UberQuestionDialog dialog = new UberQuestionDialog(context);
+		final IdearQuestionDialog dialog = new IdearQuestionDialog(context);
 		dialog.setMessage(message);
 		dialog.setCancelable(false);
 		dialog.setButton(Dialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
@@ -35,7 +35,7 @@ public class DialogUtil {
 	}
 
 	public static void showAlert(Context context, String title, String message, Bitmap image) {
-		final UberQuestionDialog dialog = new UberQuestionDialog(context, image);
+		final IdearQuestionDialog dialog = new IdearQuestionDialog(context, image);
 		dialog.setTitle(title);
 		dialog.setMessage(message);
 		dialog.setCancelable(false);

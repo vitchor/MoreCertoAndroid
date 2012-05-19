@@ -6,13 +6,12 @@ import android.text.TextWatcher;
 import android.widget.EditText;
 
 import com.br.morecerto.R;
-import com.br.morecerto.controller.service.GoogleService;
 import com.google.android.maps.MapActivity;
 
 public class Map extends MapActivity implements TextWatcher {
 	
 	private EditText mSearchField;
-	private GoogleService mGoogleService;
+	//private GoogleService mGoogleService;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -43,8 +42,8 @@ public class Map extends MapActivity implements TextWatcher {
 
 	@Override
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
-		mGoogleService.cancelDownload();
-		/*if (mRunnable != null) {
+		/*mGoogleService.cancelDownload();
+		if (mRunnable != null) {
 			mRequestSender.removeCallbacks(mRunnable);
 		}
 		if (!sequence.toString().equals("")) {
