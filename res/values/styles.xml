@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+	<style name="Theme.NoBackground" parent="android:Theme">
+		<item name="android:windowBackground">@null</item>
+	</style>
+	
 	<style name="toolbarButton" parent="@android:style/Widget.Button">
 		<item name="android:textSize">12dip</item>
 		<item name="android:textStyle">bold</item>
@@ -16,4 +20,41 @@
 		<item name="android:shadowRadius">0.2</item>		
 	</style>
 	
+	
+   <style name="uberSmallDarkShadow" parent="@android:style/Widget.TextView">
+      <item name="android:shadowColor">#FF000000</item>
+      <item name="android:shadowDx">0</item>
+      <item name="android:shadowDy">-1</item>
+      <item name="android:shadowRadius">0.2</item>
+   </style>
+   
+   <style name="uberBigDarkShadow" parent="@android:style/Widget.TextView">
+      <item name="android:shadowColor">#FF000000</item>
+      <item name="android:shadowDx">0</item>
+      <item name="android:shadowDy">-2</item>
+      <item name="android:shadowRadius">0.2</item>
+   </style>
+   
+      <style name="uberSmallLightShadow" parent="@android:style/Widget.TextView">
+      <item name="android:shadowColor">#FFFFFFFF</item>
+      <item name="android:shadowDx">0</item>
+      <item name="android:shadowDy">-1</item>
+      <item name="android:shadowRadius">0.2</item>
+   </style>
+   
+   <style name="uberBigLightShadow" parent="@android:style/Widget.TextView">
+      <item name="android:shadowColor">#FFFFFFFF</item>
+      <item name="android:shadowDx">0</item>
+      <item name="android:shadowDy">-2</item>
+      <item name="android:shadowRadius">0.2</item>
+   </style>
+
+   <style parent="@android:style/Widget.ProgressBar" name="uberDarkProgressBar">
+	  	<item name="android:indeterminateDrawable">@anim/spin_dark</item>
+   </style>
+   
+   <style parent="@android:style/Widget.ProgressBar" name="uberLightProgressBar">
+	  	<item name="android:indeterminateDrawable">@anim/spin_light</item>
+   </style>   
+   
 </resources>
