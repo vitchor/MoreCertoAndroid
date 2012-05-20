@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
+import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import com.br.morecerto.R;
@@ -24,7 +25,16 @@ public class AnimationUtil {
 			view.setVisibility(visibility);
 		}
 	}
-	
+
+	public static void executeAnimation(Context context, View view, int visibility, int delay) {
+		if (view != null && view.getVisibility() == View.VISIBLE) {
+			Animation animation = AnimationUtils.loadAnimation(context, R.anim.fade_out);
+			animation.setStartOffset(delay);
+			view.startAnimation(animation);
+			view.setVisibility(visibility);
+		}
+	}
+
 	public static void setActivitiesTransitionAnimation(Object receiver, int enterAnim, int exitAnim) {
 		try {
 			Method overridePendingTransition = Activity.class.getMethod("overridePendingTransition", new Class[] { Integer.TYPE, Integer.TYPE });

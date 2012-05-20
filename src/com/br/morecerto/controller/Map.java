@@ -7,10 +7,15 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout.LayoutParams;
@@ -22,12 +27,13 @@ import com.br.morecerto.controller.network.OnDownloadListener;
 import com.br.morecerto.controller.network.Request;
 import com.br.morecerto.controller.network.Response;
 import com.br.morecerto.controller.service.GoogleService;
+import com.br.morecerto.controller.utility.AnimationUtil;
 import com.br.morecerto.view.IdearListAdapter;
 import com.br.morecerto.view.IdearListItem;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
 
-public class Map extends MapActivity implements TextWatcher, OnDownloadListener, OnFocusChangeListener {
+public class Map extends MapActivity implements TextWatcher, OnDownloadListener, OnFocusChangeListener, OnClickListener {
 
 	// Views
 	private EditText mSearchField;
@@ -36,6 +42,8 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 	private TextView mMsgTextView;
 	private ProgressBar mSpinner;
 	private Button mSearchbutton;
+	private LinearLayout mSearchMessageWrapper;
+	private LinearLayout mSearchListWrapper;
 
 	// Controllers
 	private GoogleService mGoogleService;
@@ -45,6 +53,9 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 
 	// Models
 	private ArrayList<DataNode> mSearchResult = new ArrayList<DataNode>();
+	
+	//Others
+	private android.view.ViewGroup.LayoutParams mSearchFieldParams;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -54,6 +65,10 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 		mSearchField = (EditText) findViewById(R.id.search_field);
 		mSearchField.addTextChangedListener(this);
 		mSearchField.setOnFocusChangeListener(this);
+
+		mSearchMessageWrapper = (LinearLayout) findViewById(R.id.search_message_layout_wrapper);
+
+		mSearchListWrapper = (LinearLayout) findViewById(R.id.search_list_wrapper);
 
 		mMsgTextView = (TextView) findViewById(R.id.msg_text);
 		mSpinner = (ProgressBar) findViewById(R.id.spinner);
@@ -72,26 +87,23 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 		mListView.setAdapter(mListAdapter);
 
 		mSearchField.setHint(getResources().getString(R.string.serch_field_msg));
-		
+
 		mSearchbutton = (Button) findViewById(R.id.search_button);
+		mSearchbutton.setOnClickListener(this);
 	}
 
 	@Override
 	protected boolean isRouteDisplayed() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public void afterTextChanged(Editable s) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-		Log.i("GOOGLE", "COMECOU EDICAO!");
-
 	}
 
 	@Override
@@ -114,6 +126,7 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 
 		} else {
 			mSearchResult.clear();
+			mMsgTextView.setText(getResources().getString(R.string.type_to_start_search));
 			updateList();
 		}
 
@@ -122,7 +135,6 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 	@Override
 	public void onPreLoad(int type) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -148,20 +160,15 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 			}
 		}
 
-		Log.i("GOOGLE", "Loaded!");
-		Log.i("GOOGLE", response.getStringData());
-
 	}
 
 	@Override
 	public void onError(int type, Request request, Exception exception) {
-		// TODO Auto-generated method stub
 		Log.i("GOOGLE", "Got Error!");
 	}
 
 	@Override
 	public void onCancel() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -176,14 +183,17 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 				mListAdapter.addItem(item);
 				i++;
 			}
+		}
+		if (mSearchResult.size() > 3) {
+			mListView.getLayoutParams().height = mListAdapter.getRowHeight() * 3;
+		} else {
+			mListView.getLayoutParams().height = LayoutParams.WRAP_CONTENT;
+		}
 
-			// View line = (View)mListView.getItemAtPosition(0);
-
-			if (mSearchResult.size() > 3) {
-				mListView.getLayoutParams().height = mListAdapter.getRowHeight() * 3;
-			} else {
-				mListView.getLayoutParams().height = LayoutParams.WRAP_CONTENT;
-			}
+		if (mSearchResult.size() > 0) {
+			AnimationUtil.fadeIn(this, mSearchListWrapper);
+		} else {
+			AnimationUtil.fadeOut(this, mSearchListWrapper, View.GONE);
 
 			mListAdapter.notifyDataSetChanged();
 			mListView.invalidate();
@@ -203,10 +213,82 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 	@Override
 	public void onFocusChange(View view, boolean arg1) {
 		if (view == mSearchField) {
-			mSearchbutton.setVisibility(View.VISIBLE);
+
+			if (mSearchField.getLayoutParams().width != android.view.ViewGroup.LayoutParams.FILL_PARENT) {
+				mSearchField.setLayoutParams(mSearchFieldParams);
+			}
+
+			final Animation shrink = AnimationUtils.loadAnimation(this, R.anim.shrink);
+			mSearchField.startAnimation(shrink);
+
+			slideInRight(mSearchbutton);
+			slideInTop(mSearchMessageWrapper);
+
 		} else {
-			
+
 		}
-		
 	}
+
+	
+	private void slideInTop(View view) {
+		if (view != null && view.getVisibility() != View.VISIBLE) {
+
+			Animation animation = AnimationUtils.loadAnimation(this, R.anim.slide_in_top);
+			animation.setStartOffset(300);
+			view.startAnimation(animation);
+			view.setVisibility(View.VISIBLE);
+		}
+	}
+
+	private void slideOutTop(View view) {
+		if (view != null && view.getVisibility() == View.VISIBLE) {
+			Animation animation = AnimationUtils.loadAnimation(this, R.anim.slide_out_top);
+			animation.setStartOffset(300);
+			view.startAnimation(animation);
+			view.setVisibility(View.INVISIBLE);
+		}
+	}
+
+	private void slideInRight(View view) {
+		if (view != null && view.getVisibility() != View.VISIBLE) {
+			Animation animation = AnimationUtils.loadAnimation(this, R.anim.slide_in_right);
+			animation.setStartOffset(50);
+			view.startAnimation(animation);
+			view.setVisibility(View.VISIBLE);
+		}
+	}
+
+	private void slideOutRight(View view) {
+		if (view != null && view.getVisibility() == View.VISIBLE) {
+			Animation animation = AnimationUtils.loadAnimation(this, R.anim.slide_out_right);
+			view.startAnimation(animation);
+			view.setVisibility(View.GONE);
+		}
+	}
+
+	@Override
+	public void onClick(View view) {
+		mSearchField.clearFocus();
+		mSearchField.setText("");
+		mSearchField.setLayoutParams(new LinearLayout.LayoutParams(mSearchField.getWidth(), LayoutParams.FILL_PARENT));
+		mSearchField.invalidate();
+
+		slideOutRight(mSearchbutton);
+
+		Display display = getWindowManager().getDefaultDisplay();
+		int width = display.getWidth();
+		
+		mSearchFieldParams = mSearchField.getLayoutParams();
+		mSearchField.setLayoutParams(new LinearLayout.LayoutParams(width - 10, LayoutParams.FILL_PARENT));
+
+		Animation grow = AnimationUtils.loadAnimation(this, R.anim.grow);
+		grow.setStartOffset(50);
+		mSearchField.startAnimation(grow);
+
+		slideOutTop(mSearchMessageWrapper);
+		AnimationUtil.fadeOut(this, mSearchListWrapper, View.GONE);
+		mSearchField.invalidate();
+
+	}
+
 }

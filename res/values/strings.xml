@@ -6,5 +6,6 @@
 	<string name="done">Feito</string>
 	<string name="no_results">Nenhum Resultado</string>
 	<string name="matches_found" formatted="false">%d Resultado%s</string>
-	<string name="loading">Buscando...</string>	
+	<string name="loading">Buscando...</string>
+	<string name="type_to_start_search">Digite para iniciar busca</string>
 </resources>
