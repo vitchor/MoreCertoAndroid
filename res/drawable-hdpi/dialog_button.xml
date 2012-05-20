@@ -3,11 +3,11 @@
 
 	<item
 		android:state_pressed="true"
-		android:drawable="@drawable/idear_dialog_button_pressed"
+		android:drawable="@drawable/dialog_button_pressed"
 		/>
 
 	<item 
-		android:drawable="@drawable/idear_dialog_button_normal" 
+		android:drawable="@drawable/dialog_button_normal"
 		/>
 
 </selector>
