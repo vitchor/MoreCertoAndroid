@@ -2,4 +2,9 @@
 <resources>
 	<string name="app_name">More Certo</string>
 	<string name="cancel">Cancelar</string>
+	<string name="serch_field_msg">Cidade, endereço ou referência...</string>
+	<string name="done">Feito</string>
+	<string name="no_results">Nenhum Resultado</string>
+	<string name="matches_found" formatted="false">%d Resultado%s</string>
+	<string name="loading">Buscando...</string>	
 </resources>

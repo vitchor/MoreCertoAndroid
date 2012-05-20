@@ -1,39 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical"
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 	>
 	
-	<LinearLayout 
+	<LinearLayout
 		android:id="@+id/search_view"
 		android:layout_width="fill_parent" 
-		android:layout_height="45dp"
-		android:padding="5dp" 
-		android:orientation="horizontal"
-		android:background="@drawable/toolbar"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
 		>
-
-		<EditText 
-			android:id="@+id/search_field"
-			android:layout_width="wrap_content" 
-			android:layout_height="fill_parent"
-			android:background="@drawable/search_bar_border"
-			android:layout_weight="1" 
-			android:textSize="14dp" 
-			android:inputType="none"
-			android:autoText="false" 
+		
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="1dp"
+			android:background="#353535"
 			/>
-
-		<Button 
-			android:id="@+id/search_button" 
-			style="@style/toolbarButton"
-			android:layout_width="wrap_content" 
-			android:layout_height="fill_parent"
-			android:layout_marginLeft="7dp" 
-			android:text="BUSCAR" 
+		
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="1dp"
+			android:background="#202020"
 			/>
-
+		
+		<LinearLayout
+			android:layout_width="fill_parent" 
+			android:layout_height="45dp"
+			android:padding="5dp" 
+			android:orientation="horizontal"
+			android:background="@drawable/toolbar"
+			android:layout_alignParentTop = "true"
+			>
+		
+			<EditText 
+				android:id="@+id/search_field"
+				android:layout_width="wrap_content" 
+				android:layout_height="fill_parent"
+				android:background="@drawable/search_bar_border"
+				android:layout_weight="1" 
+				android:textSize="14dp" 
+				android:inputType="none"
+				android:autoText="false" 
+				/>
+			
+			<Button 
+				android:id="@+id/search_button" 
+				style="@style/toolbarButton"
+				android:layout_width="wrap_content" 
+				android:layout_height="fill_parent"
+				android:layout_marginLeft="7dp" 
+				android:text="BUSCAR" 
+				/>
+		
+		</LinearLayout>
+		
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="1dp"
+			android:background="#202020"
+			/>
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="1dp"
+			android:background="#353535"
+			/>
+		
+	
 	</LinearLayout>
 	
 	<com.google.android.maps.MapView
@@ -42,6 +75,85 @@
 		android:layout_height="fill_parent"
 		android:clickable="true"
 		android:apiKey="0FnqUP7EgzaY-Y1BeJ9uIpKl4sqPfXYAbmfAdzA"
+		android:layout_weight="1"
+		android:layout_below = "@id/search_view"
 		/>
 	
-</LinearLayout>
+	<LinearLayout
+		android:id="@+id/message_layout"
+		android:layout_width="fill_parent" 
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:layout_below = "@id/search_view"
+		>
+		
+		<LinearLayout
+				android:layout_width="fill_parent"
+				android:layout_height="22.5dp"
+				android:layout_centerInParent="true"
+				android:gravity="center"
+				android:background="#BB000000"
+				>
+				
+				<ProgressBar 
+					android:id="@+id/spinner" 
+					style="@style/darkProgressBar"
+					android:layout_width="20dp" 
+					android:layout_height="20dp"
+					android:visibility="gone"
+					/>
+			
+				<TextView 
+					android:id="@+id/msg_text"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="7dp"
+					android:textColor="#F0F0F0"
+					android:textSize="17dp"
+					android:maxWidth="220dp"
+					/>
+					
+		</LinearLayout>
+	
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="1dp"
+			android:background="#202020"
+			/>
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="1dp"
+			android:background="#353535"
+			/>
+			
+		</LinearLayout>
+		
+	<LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/message_layout"
+		android:background="#FFFFFF"
+		android:orientation="vertical"
+		>
+		
+		<ListView 
+			android:id="@+id/list_view" 
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:clickable="true"
+			android:divider="@color/table_separator" 
+			android:cacheColorHint="@android:color/white"
+			android:listSelector="@drawable/uber_middle_row"
+			android:dividerHeight="1dp"
+			android:layout_below="@id/message_layout"
+			/>
+			
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="1dp"
+			android:background="@color/table_separator"
+			/>
+			
+	</LinearLayout>
+	
+</RelativeLayout>

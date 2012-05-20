@@ -55,6 +55,15 @@
    
    <style parent="@android:style/Widget.ProgressBar" name="lightProgressBar">
 	  	<item name="android:indeterminateDrawable">@anim/spin_light</item>
-   </style>   
+   </style>
+   
+   	<style name="errorTextView" parent="@android:style/Widget.TextView">
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_height">40dp</item>
+		<item name="android:background">@drawable/bg_error_view</item>
+		<item name="android:textColor">@android:color/white</item>
+		<item name="android:textSize">16dp</item>
+		<item name="android:gravity">center</item>
+	</style>
    
 </resources>
