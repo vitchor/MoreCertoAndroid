@@ -8,6 +8,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnFocusChangeListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -25,7 +27,7 @@ import com.br.morecerto.view.IdearListItem;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
 
-public class Map extends MapActivity implements TextWatcher, OnDownloadListener {
+public class Map extends MapActivity implements TextWatcher, OnDownloadListener, OnFocusChangeListener {
 
 	// Views
 	private EditText mSearchField;
@@ -33,6 +35,7 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener 
 	private ListView mListView;
 	private TextView mMsgTextView;
 	private ProgressBar mSpinner;
+	private Button mSearchbutton;
 
 	// Controllers
 	private GoogleService mGoogleService;
@@ -50,6 +53,7 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener 
 
 		mSearchField = (EditText) findViewById(R.id.search_field);
 		mSearchField.addTextChangedListener(this);
+		mSearchField.setOnFocusChangeListener(this);
 
 		mMsgTextView = (TextView) findViewById(R.id.msg_text);
 		mSpinner = (ProgressBar) findViewById(R.id.spinner);
@@ -68,6 +72,8 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener 
 		mListView.setAdapter(mListAdapter);
 
 		mSearchField.setHint(getResources().getString(R.string.serch_field_msg));
+		
+		mSearchbutton = (Button) findViewById(R.id.search_button);
 	}
 
 	@Override
@@ -84,7 +90,7 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener 
 
 	@Override
 	public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-		// TODO Auto-generated method stub
+		Log.i("GOOGLE", "COMECOU EDICAO!");
 
 	}
 
@@ -192,5 +198,15 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener 
 
 	private void hideLoading() {
 		mSpinner.setVisibility(View.GONE);
+	}
+
+	@Override
+	public void onFocusChange(View view, boolean arg1) {
+		if (view == mSearchField) {
+			mSearchbutton.setVisibility(View.VISIBLE);
+		} else {
+			
+		}
+		
 	}
 }
