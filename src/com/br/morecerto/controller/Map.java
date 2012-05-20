@@ -7,12 +7,9 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Display;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -53,8 +50,8 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 
 	// Models
 	private ArrayList<DataNode> mSearchResult = new ArrayList<DataNode>();
-	
-	//Others
+
+	// Others
 	private android.view.ViewGroup.LayoutParams mSearchFieldParams;
 
 	@Override
@@ -191,9 +188,9 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 		}
 
 		if (mSearchResult.size() > 0) {
-			AnimationUtil.fadeIn(this, mSearchListWrapper);
+			AnimationUtil.executeAnimation(this, R.anim.fade_in, mSearchListWrapper, View.VISIBLE);
 		} else {
-			AnimationUtil.fadeOut(this, mSearchListWrapper, View.GONE);
+			AnimationUtil.executeAnimation(this, R.anim.fade_out, mSearchListWrapper, View.GONE);
 
 			mListAdapter.notifyDataSetChanged();
 			mListView.invalidate();
@@ -218,51 +215,12 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 				mSearchField.setLayoutParams(mSearchFieldParams);
 			}
 
-			final Animation shrink = AnimationUtils.loadAnimation(this, R.anim.shrink);
-			mSearchField.startAnimation(shrink);
-
-			slideInRight(mSearchbutton);
-			slideInTop(mSearchMessageWrapper);
+			AnimationUtil.executeAnimation(this, R.anim.shrink, mSearchField, View.VISIBLE, 25);
+			AnimationUtil.executeAnimation(this, R.anim.slide_in_right, mSearchbutton, View.VISIBLE);
+			AnimationUtil.executeAnimation(this, R.anim.slide_in_top, mSearchMessageWrapper, View.VISIBLE, 300);
 
 		} else {
 
-		}
-	}
-
-	
-	private void slideInTop(View view) {
-		if (view != null && view.getVisibility() != View.VISIBLE) {
-
-			Animation animation = AnimationUtils.loadAnimation(this, R.anim.slide_in_top);
-			animation.setStartOffset(300);
-			view.startAnimation(animation);
-			view.setVisibility(View.VISIBLE);
-		}
-	}
-
-	private void slideOutTop(View view) {
-		if (view != null && view.getVisibility() == View.VISIBLE) {
-			Animation animation = AnimationUtils.loadAnimation(this, R.anim.slide_out_top);
-			animation.setStartOffset(300);
-			view.startAnimation(animation);
-			view.setVisibility(View.INVISIBLE);
-		}
-	}
-
-	private void slideInRight(View view) {
-		if (view != null && view.getVisibility() != View.VISIBLE) {
-			Animation animation = AnimationUtils.loadAnimation(this, R.anim.slide_in_right);
-			animation.setStartOffset(50);
-			view.startAnimation(animation);
-			view.setVisibility(View.VISIBLE);
-		}
-	}
-
-	private void slideOutRight(View view) {
-		if (view != null && view.getVisibility() == View.VISIBLE) {
-			Animation animation = AnimationUtils.loadAnimation(this, R.anim.slide_out_right);
-			view.startAnimation(animation);
-			view.setVisibility(View.GONE);
 		}
 	}
 
@@ -273,22 +231,21 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 		mSearchField.setLayoutParams(new LinearLayout.LayoutParams(mSearchField.getWidth(), LayoutParams.FILL_PARENT));
 		mSearchField.invalidate();
 
-		slideOutRight(mSearchbutton);
+		AnimationUtil.executeAnimation(this, R.anim.slide_out_right, mSearchbutton, View.GONE);
 
-		Display display = getWindowManager().getDefaultDisplay();
-		int width = display.getWidth();
-		
+		// Calculate window size - padding
+		final int width = getWindowManager().getDefaultDisplay().getWidth() - 10;
+
+		// Store initial params
 		mSearchFieldParams = mSearchField.getLayoutParams();
-		mSearchField.setLayoutParams(new LinearLayout.LayoutParams(width - 10, LayoutParams.FILL_PARENT));
 
-		Animation grow = AnimationUtils.loadAnimation(this, R.anim.grow);
-		grow.setStartOffset(50);
-		mSearchField.startAnimation(grow);
+		mSearchField.setLayoutParams(new LinearLayout.LayoutParams(width, LayoutParams.FILL_PARENT));
 
-		slideOutTop(mSearchMessageWrapper);
-		AnimationUtil.fadeOut(this, mSearchListWrapper, View.GONE);
+		AnimationUtil.executeAnimation(this, R.anim.grow, mSearchField, View.VISIBLE, 50);
+		AnimationUtil.executeAnimation(this, R.anim.slide_out_top, mSearchMessageWrapper, View.GONE, 300);
+		AnimationUtil.executeAnimation(this, R.anim.fade_out, mSearchListWrapper, View.GONE);
+
 		mSearchField.invalidate();
 
 	}
-
 }

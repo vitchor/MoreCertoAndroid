@@ -52,7 +52,7 @@
 				android:lines="1"
 				android:singleLine="true"
 				android:ellipsize="end"
-				android:paddingRight="15dp"
+				android:paddingLeft="15dp"
 				/>
 			
 			<Button 
