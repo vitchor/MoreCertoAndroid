@@ -59,6 +59,8 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
+		findViewById(R.id.search_view).bringToFront();
+		
 		mSearchField = (EditText) findViewById(R.id.search_field);
 		mSearchField.addTextChangedListener(this);
 		mSearchField.setOnFocusChangeListener(this);
