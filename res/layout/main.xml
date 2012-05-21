@@ -160,7 +160,7 @@
 			android:clickable="true"
 			android:divider="@color/table_separator" 
 			android:cacheColorHint="@android:color/white"
-			android:listSelector="@drawable/uber_middle_row"
+			android:listSelector="@drawable/idear_middle_row"
 			android:dividerHeight="1dp"
 			android:layout_below="@id/search_message_layout_wrapper"
 			/>

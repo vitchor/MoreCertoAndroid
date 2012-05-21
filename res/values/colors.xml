@@ -3,7 +3,7 @@
 	<color name="light_gray_cell_selected">#f0f0f0</color>
 	<color name="dark_gray_cell_selected">#66999999</color>
 	<color name="gray_border">#a0a0a0</color>
-	<color name="uber_bg">#e6e6e6</color>
+	<color name="idear_bg">#e6e6e6</color>
 	<color name="custom_message_selected">#0085ff</color>
 	<color name="image_view_normal_border">#d0d0d0</color>
 	<color name="image_view_selected_border">#ffffff</color>
@@ -19,7 +19,7 @@
 	<color name="auth_title">#e6e7e8</color>
 	<color name="dialog_bg">#8b000000</color>
 	<color name="dialog_button_pressed">#2bffffff</color>
-	<color name="uber_default_text">#202020</color>
+	<color name="idear_default_text">#202020</color>
 	<color name="credit_card_valid">#00b700</color>
 	<color name="credit_card_invalid">#ff0000</color>
 	<color name="transparent">#00000000</color>
@@ -27,6 +27,6 @@
 	<color name="small_info_bg">#bf000000</color>
 	<color name="small_info_bg_pressed">#bf444444</color>
 	<color name="light_edit_text_bg">#eeeeee</color>
-	<color name="uber_light_gray_text">#808080</color>
-	<color name="uber_green_text">#30a030</color>
+	<color name="idear_light_gray_text">#808080</color>
+	<color name="idear_green_text">#30a030</color>
 </resources>

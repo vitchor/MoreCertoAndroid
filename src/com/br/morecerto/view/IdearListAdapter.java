@@ -22,9 +22,9 @@ import com.br.morecerto.controller.utility.ImageCache;
 
 public class IdearListAdapter extends BaseAdapter {
 	
-	public static final int UBER_DEFAULT_STYLE = 0;
-	public static final int UBER_SUBTITLE_STYLE = 1;
-	public static final int UBER_SUBTITLE_WITH_TAG_STYLE = 2;
+	public static final int IDEAR_DEFAULT_STYLE = 0;
+	public static final int IDEAR_SUBTITLE_STYLE = 1;
+	public static final int IDEAR_SUBTITLE_WITH_TAG_STYLE = 2;
 
 	private ArrayList<IdearListItem> mItems;
 	private HashMap<Long, IdearListItem> mItemsMap;
@@ -51,9 +51,9 @@ public class IdearListAdapter extends BaseAdapter {
 		mItemsMap.clear();
 	}
 
-	public void addItem(IdearListItem uberListItem) {
-		mItems.add(uberListItem);
-		mItemsMap.put(uberListItem.getId(), uberListItem);
+	public void addItem(IdearListItem idearListItem) {
+		mItems.add(idearListItem);
+		mItemsMap.put(idearListItem.getId(), idearListItem);
 	}
 
 	public ArrayList<IdearListItem> getItems() {
@@ -128,23 +128,23 @@ public class IdearListAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		UberHolderItem holder = null;
-		final IdearListItem uberListItem = mItems.get(position);
+		final IdearListItem idearListItem = mItems.get(position);
 		int style;
-		if (uberListItem.getStyle() != -1) {
-			style = uberListItem.getStyle();
+		if (idearListItem.getStyle() != -1) {
+			style = idearListItem.getStyle();
 		} else {
 			style = mStyle;
 		}
 		if (convertView == null) {
 			holder = new UberHolderItem();
-			if (style == UBER_DEFAULT_STYLE) {
-				convertView = mInflater.inflate(R.layout.uber_list_cell_default, parent, false);
+			if (style == IDEAR_DEFAULT_STYLE) {
+				convertView = mInflater.inflate(R.layout.idear_list_cell_default, parent, false);
 				holder.subtitleView = null;
-			} else if (style == UBER_SUBTITLE_STYLE) {
-				convertView = mInflater.inflate(R.layout.uber_list_cell_subtitled, parent, false);
+			} else if (style == IDEAR_SUBTITLE_STYLE) {
+				convertView = mInflater.inflate(R.layout.idear_list_cell_subtitled, parent, false);
 				holder.subtitleView = (TextView) convertView.findViewById(R.id.subtitle);
-			} else if(style == UBER_SUBTITLE_WITH_TAG_STYLE) {
-				convertView = mInflater.inflate(R.layout.uber_list_cell_subtitled_with_tag, parent, false);
+			} else if(style == IDEAR_SUBTITLE_WITH_TAG_STYLE) {
+				convertView = mInflater.inflate(R.layout.idear_list_cell_subtitled_with_tag, parent, false);
 				holder.subtitleView = (TextView) convertView.findViewById(R.id.subtitle);
 				holder.tagTextView = (TextView) convertView.findViewById(R.id.tagMsg);
 			}
@@ -156,18 +156,18 @@ public class IdearListAdapter extends BaseAdapter {
 			holder = (UberHolderItem) convertView.getTag();
 		}
 		if (holder != null) {
-			holder.id = uberListItem.getId();
-			holder.titleView.setText(uberListItem.getTitle());
+			holder.id = idearListItem.getId();
+			holder.titleView.setText(idearListItem.getTitle());
 			holder.titleView.setTypeface(null, mIsBoldEnabled ? Typeface.BOLD : Typeface.NORMAL);
 			if (holder.subtitleView != null) {
-				holder.subtitleView.setText(uberListItem.getSubtitle());
+				holder.subtitleView.setText(idearListItem.getSubtitle());
 			}
 			if(holder.tagTextView != null){
-				holder.tagTextView.setText(uberListItem.getStatusMsg());
+				holder.tagTextView.setText(idearListItem.getStatusMsg());
 			}
 			// Left image
-			final Drawable leftDrawable = uberListItem.getLeft();
-			final Bitmap bitmap = mCache.getImage(uberListItem.getId());
+			final Drawable leftDrawable = idearListItem.getLeft();
+			final Bitmap bitmap = mCache.getImage(idearListItem.getId());
 			if (leftDrawable != null) {
 				holder.leftImage.setImageDrawable(leftDrawable);
 				holder.leftImage.setVisibility(View.VISIBLE);
@@ -182,7 +182,7 @@ public class IdearListAdapter extends BaseAdapter {
 				holder.leftImage.setVisibility(View.GONE);
 			}
 			// Right image
-			final Drawable rightDrawable = uberListItem.getRight();
+			final Drawable rightDrawable = idearListItem.getRight();
 			if (rightDrawable != null && mDefaultRightChecked != null) {
 				// It's a checkable item.
 				holder.checkBox.setButtonDrawable(rightDrawable);
@@ -194,7 +194,7 @@ public class IdearListAdapter extends BaseAdapter {
 				holder.checkBox.setVisibility(View.VISIBLE);
 			} else if (mDefaultRight != null && mDefaultRightChecked != null) {
 				// It's a checkable item.
-				holder.checkBox.setButtonDrawable(uberListItem.isSelected() ? mDefaultRightChecked : mDefaultRight);
+				holder.checkBox.setButtonDrawable(idearListItem.isSelected() ? mDefaultRightChecked : mDefaultRight);
 				holder.checkBox.setVisibility(View.VISIBLE);
 			} else if (mDefaultRight != null) {
 				// It's not checkable.
@@ -217,7 +217,7 @@ public class IdearListAdapter extends BaseAdapter {
 			}
 			convertView.setTag(holder);
 			holder.checkBox.setOnCheckedChangeListener(mOnCheckedChangeListener);
-			holder.checkBox.setTag(uberListItem.getId());
+			holder.checkBox.setTag(idearListItem.getId());
 		}
 		return convertView;
 	}

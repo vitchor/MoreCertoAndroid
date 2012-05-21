@@ -6,7 +6,7 @@
 		/>
 		
 	<item
-		android:color="@color/uber_default_text"
+		android:color="@color/idear_default_text"
 		/>
 		
  </selector>

@@ -77,7 +77,7 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 
 		mapView = (MapView) findViewById(R.id.map_view);
 
-		mListAdapter = new IdearListAdapter(this, IdearListAdapter.UBER_DEFAULT_STYLE);
+		mListAdapter = new IdearListAdapter(this, IdearListAdapter.IDEAR_DEFAULT_STYLE);
 		mListAdapter.setRowHeight(45);
 
 		mListView = (ListView) findViewById(R.id.list_view);
@@ -215,7 +215,7 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 				mSearchField.setLayoutParams(mSearchFieldParams);
 			}
 
-			AnimationUtil.executeAnimation(this, R.anim.shrink, mSearchField, View.VISIBLE, 25);
+			AnimationUtil.executeAnimation(this, R.anim.shrink, mSearchField, View.VISIBLE);
 			AnimationUtil.executeAnimation(this, R.anim.slide_in_right, mSearchbutton, View.VISIBLE);
 			AnimationUtil.executeAnimation(this, R.anim.slide_in_top, mSearchMessageWrapper, View.VISIBLE, 300);
 
