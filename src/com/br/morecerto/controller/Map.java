@@ -24,7 +24,9 @@ import com.br.morecerto.controller.network.OnDownloadListener;
 import com.br.morecerto.controller.network.Request;
 import com.br.morecerto.controller.network.Response;
 import com.br.morecerto.controller.service.GoogleService;
+import com.br.morecerto.controller.service.IdearService;
 import com.br.morecerto.controller.utility.AnimationUtil;
+import com.br.morecerto.model.Realstate;
 import com.br.morecerto.view.IdearListAdapter;
 import com.br.morecerto.view.IdearListItem;
 import com.google.android.maps.MapActivity;
@@ -59,8 +61,12 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
+		IdearService service = new IdearService();
+		service.setOnDownloadListener(this);
+		service.sendNearPlacesRequest(-27.604264, -48.523908, 1);
+
 		findViewById(R.id.search_view).bringToFront();
-		
+
 		mSearchField = (EditText) findViewById(R.id.search_field);
 		mSearchField.addTextChangedListener(this);
 		mSearchField.setOnFocusChangeListener(this);
@@ -133,42 +139,55 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 
 	@Override
 	public void onPreLoad(int type) {
-		// TODO Auto-generated method stub
+		Log.i("NETWORK", "PRELOAD");
 	}
 
 	@Override
 	public void onLoad(Response response) {
-		hideLoading();
-		final DataNode data = response.getDataNode();
-		if (data != null) {
-			final DataNode results = data.getNode("results");
-			if (results != null) {
-				ArrayList<DataNode> resultsArray = results.getArray();
-				int size = resultsArray.size();
-				if (size == 0) {
-					if (mSearchField.getText().toString().equals("")) {
-						mMsgTextView.setText("");
+		
+		final int type = response.getRequest().getType();
+		
+		if (type == IdearService.REQUEST_NEAR_PLACES) {
+			
+			updateMap(Realstate.fromResponse(response));
+			
+		} else {
+
+			hideLoading();
+
+			final DataNode data = response.getDataNode();
+			if (data != null) {
+				final DataNode results = data.getNode("results");
+				if (results != null) {
+					ArrayList<DataNode> resultsArray = results.getArray();
+					int size = resultsArray.size();
+					if (size == 0) {
+						if (mSearchField.getText().toString().equals("")) {
+							mMsgTextView.setText("");
+						} else {
+							mMsgTextView.setText(getResources().getString(R.string.no_results));
+						}
 					} else {
-						mMsgTextView.setText(getResources().getString(R.string.no_results));
+						mMsgTextView.setText(getResources().getString(R.string.matches_found, size, size == 1 ? "" : "s"));
 					}
-				} else {
-					mMsgTextView.setText(getResources().getString(R.string.matches_found, size, size == 1 ? "" : "s"));
+					mSearchResult = resultsArray;
+					updateList();
 				}
-				mSearchResult = resultsArray;
-				updateList();
 			}
 		}
 
 	}
 
+	private void updateMap(ArrayList<Realstate> realstates) {
+		
+	}
+
 	@Override
 	public void onError(int type, Request request, Exception exception) {
-		Log.i("GOOGLE", "Got Error!");
 	}
 
 	@Override
 	public void onCancel() {
-
 	}
 
 	private void updateList() {
@@ -246,7 +265,6 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 		AnimationUtil.executeAnimation(this, R.anim.grow, mSearchField, View.VISIBLE, 50);
 		AnimationUtil.executeAnimation(this, R.anim.slide_out_top, mSearchMessageWrapper, View.GONE, 300);
 		AnimationUtil.executeAnimation(this, R.anim.fade_out, mSearchListWrapper, View.GONE);
-
 		mSearchField.invalidate();
 
 	}
