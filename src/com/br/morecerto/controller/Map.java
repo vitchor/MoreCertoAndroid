@@ -45,7 +45,7 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.Overlay;
 
-public class Map extends MapActivity implements TextWatcher, OnDownloadListener, OnFocusChangeListener, OnClickListener, OnTouchListener, OnItemClickListener {
+public class Map extends MapActivity implements TextWatcher, OnDownloadListener, OnFocusChangeListener, OnClickListener, OnTouchListener, OnItemClickListener, OnFocusListener {
 
 	// Views
 	private EditText mSearchField;
@@ -204,16 +204,14 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 
 				mapOverlays = mMapView.getOverlays();
 				IdearOverlay mOverlay = new IdearOverlay(NumberIcon.getIcon(this, realstate.getRating()));
-				mOverlay.setOnFocusListener(new OnFocusListener() {
-
-					@Override
-					public void onOverlayItemClick(OverlayItem item) {
-						// TODO Auto-generated method stub
-
-					}
-				});
+				// mOverlay.
+				mOverlay.setOnFocusListener(this);
 				mapOverlays.add(mOverlay);
-				mOverlay.addItem(GeoUtil.toMicroDegree(realstate.lat), GeoUtil.toMicroDegree(realstate.lng));
+
+				final OverlayItem item = new OverlayItem(new GeoPoint(GeoUtil.toMicroDegree(realstate.lat), GeoUtil.toMicroDegree(realstate.lng)), realstate.address, realstate.type, realstate.id);
+				item.setClickable(true);
+				mOverlay.addItem(item);
+
 				mOverlay.invalidate();
 				mMapView.invalidate();
 
@@ -295,8 +293,8 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 		mSearchField.setText("");
 		mSearchField.setLayoutParams(new LinearLayout.LayoutParams(mSearchField.getWidth(), LayoutParams.FILL_PARENT));
 		mSearchField.invalidate();
-		
-		InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+
+		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.hideSoftInputFromWindow(mSearchField.getWindowToken(), 0);
 
 		AnimationUtil.executeAnimation(this, R.anim.slide_out_right, mSearchbutton, View.GONE);
@@ -313,7 +311,7 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 		AnimationUtil.executeAnimation(this, R.anim.slide_out_top, mSearchMessageWrapper, View.GONE, 300);
 		AnimationUtil.executeAnimation(this, R.anim.fade_out, mSearchListWrapper, View.GONE);
 		mSearchField.invalidate();
-		
+
 		mListAdapter.removeAll();
 	}
 
@@ -329,7 +327,7 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 	private void sendNearPlacesRequest(GeoPoint point) {
 		mIdearService.clearQueue();
 		mIdearService.sendNearPlacesRequest(GeoUtil.toDegree(point.getLatitudeE6()), GeoUtil.toDegree(point.getLongitudeE6()), 1);
-		
+
 	}
 
 	@Override
@@ -344,11 +342,45 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 				mMapView.getController().animateTo(point);
 
 				hideSearchOptions();
-				
+
 				sendNearPlacesRequest(point);
 			}
 		}
 
+	}
+
+	@Override
+	public void onOverlayItemClick(OverlayItem item) {
+		if (item.isClickable()) {
+			// mMapView.getController().setCenter(item.getPoint());
+			// mMapView.getController().setZoom(18);
+			showBubble(item);
+		}
+
+	}
+
+	void showBubble(OverlayItem item) {
+		if (item != null) {
+			item = updateLocationInfoOnItem(item);
+			mMapView.showBubble(item);
+		}
+	}
+
+	private OverlayItem updateLocationInfoOnItem(OverlayItem item) {
+		if (item != null && item.getTag() != null) {
+
+			ArrayList<Realstate> realstates = Realstate.mRealstates;
+			for (Realstate realstate : realstates) {
+				if (realstate.id.equals(item.getTag())) {
+					item = new OverlayItem(item.getPoint(), realstate.address, "", realstate.id);
+					item.setClickable(true);
+					// item.setBubbleClickable(true);
+					break;
+				}
+			}
+
+		}
+		return item;
 	}
 
 }

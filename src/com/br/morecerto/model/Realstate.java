@@ -44,6 +44,8 @@ public class Realstate {
 	
 	public String address;
 	
+	public String id;
+	
 	public int getRating() {
 		return (int) Math.round((bankRating + storeRating + barRating + gasStationRating + restaurantRating + restaurantRating + healthRating) / 7);
 	}
@@ -83,12 +85,13 @@ public class Realstate {
 				realstate.district = realstateNode.findString("district", null);
 				realstate.state = realstateNode.findString("state", null);
 				
-				realstate.address = realstateNode.findString("state", null);
+				realstate.address = realstateNode.findString("address", null);
 
+				realstate.id = realstateNode.findString("idrealestates", "");
+				
 				if (realstateNode.findString("cached_image", "0").equals("0")) {
-					final String idrealestates = realstateNode.findString("idrealestates", "");
-					if (!(idrealestates.equals(""))) {
-						realstate.imageUrl = "http://www.morecerto.com.br/uploads/cache/" + idrealestates + ".jpg";
+					if (!(realstate.id.equals(""))) {
+						realstate.imageUrl = "http://www.morecerto.com.br/uploads/cache/" + realstate.id + ".jpg";
 					}
 
 				} else {
