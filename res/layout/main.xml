@@ -11,7 +11,7 @@
 		android:focusableInTouchMode="true"
 		android:layout_width="0px" 
 		android:layout_height="0px"/>
-	
+
 	<LinearLayout
 		android:id="@+id/search_view"
 		android:layout_width="fill_parent" 

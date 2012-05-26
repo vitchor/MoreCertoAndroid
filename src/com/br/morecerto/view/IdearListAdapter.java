@@ -127,7 +127,7 @@ public class IdearListAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		UberHolderItem holder = null;
+		IdearHolderItem holder = null;
 		final IdearListItem idearListItem = mItems.get(position);
 		int style;
 		if (idearListItem.getStyle() != -1) {
@@ -136,7 +136,7 @@ public class IdearListAdapter extends BaseAdapter {
 			style = mStyle;
 		}
 		if (convertView == null) {
-			holder = new UberHolderItem();
+			holder = new IdearHolderItem();
 			if (style == IDEAR_DEFAULT_STYLE) {
 				convertView = mInflater.inflate(R.layout.idear_list_cell_default, parent, false);
 				holder.subtitleView = null;
@@ -153,7 +153,7 @@ public class IdearListAdapter extends BaseAdapter {
 			holder.titleView = (TextView) convertView.findViewById(R.id.title);
 			
 		} else {
-			holder = (UberHolderItem) convertView.getTag();
+			holder = (IdearHolderItem) convertView.getTag();
 		}
 		if (holder != null) {
 			holder.id = idearListItem.getId();

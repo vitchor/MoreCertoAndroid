@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="wrap_content"
+	android:layout_width="wrap_content" 
+	android:orientation="horizontal" 
+	android:gravity="center"
+	android:background="@drawable/bg_bubble" 
+	android:layout_marginBottom="16dp"
+	android:layout_marginRight="3.25dp"
+	><!--WTF: Android won't align the bubble perfectly. Two last lines needed.-->
+	
+	<TextView 
+		android:id="@+id/bubble_title"
+		style ="@style/smallDarkShadow"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content" 
+		android:layout_marginRight="12dp"
+		android:layout_marginLeft="4dp"
+		android:textSize="16dp"
+		android:textColor="#ffffff"
+		android:singleLine="true"
+		android:ellipsize="end"
+		android:maxWidth="250dp"
+		/>
+		
+	<ImageView
+		android:src="@drawable/ic_white_disclosure_arrow"
+		android:layout_width="9dp"
+		android:layout_height="15dp"
+		android:layout_marginRight="4dp"
+		/>	
+	
+</LinearLayout>

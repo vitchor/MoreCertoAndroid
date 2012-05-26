@@ -1,7 +1,5 @@
 package com.br.morecerto.view;
 
-import com.br.morecerto.R;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.br.morecerto.R;
 
 public class IdearQuestionDialog extends IdearDialog {
 

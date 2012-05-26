@@ -1,6 +1,7 @@
 package com.br.morecerto.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,11 +27,13 @@ import com.br.morecerto.controller.network.Response;
 import com.br.morecerto.controller.service.GoogleService;
 import com.br.morecerto.controller.service.IdearService;
 import com.br.morecerto.controller.utility.AnimationUtil;
+import com.br.morecerto.controller.utility.NumberIcon;
 import com.br.morecerto.model.Realstate;
 import com.br.morecerto.view.IdearListAdapter;
 import com.br.morecerto.view.IdearListItem;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
+import com.google.android.maps.Overlay;
 
 public class Map extends MapActivity implements TextWatcher, OnDownloadListener, OnFocusChangeListener, OnClickListener {
 
@@ -149,7 +152,7 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 		
 		if (type == IdearService.REQUEST_NEAR_PLACES) {
 			
-			updateMap(Realstate.fromResponse(response));
+			updateMap(Realstate.updateWithResponse(response));
 			
 		} else {
 
@@ -179,7 +182,11 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 	}
 
 	private void updateMap(ArrayList<Realstate> realstates) {
+		Realstate realstate = realstates.get(0);
+		NumberIcon.getIcon(this, realstate.getRating());
 		
+		List<Overlay> mapOverlays = mapView.getOverlays();
+		//mapOverlays.add(new Idear);
 	}
 
 	@Override

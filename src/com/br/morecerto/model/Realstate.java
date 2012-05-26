@@ -7,6 +7,7 @@ import com.br.morecerto.controller.network.Response;
 
 public class Realstate {
 
+	public static ArrayList<Realstate> mRealstates;
 	
 	public static String KIND_APT="apt";
 	public static String KIND_KIT="kit";
@@ -43,7 +44,11 @@ public class Realstate {
 	
 	public String address;
 	
-	public static ArrayList<Realstate> fromResponse(Response response) {
+	public static int getRating() {
+		return 50;
+	}
+	
+	public static ArrayList<Realstate> updateWithResponse(Response response) {
 
 		final ArrayList<Realstate> realstates = new ArrayList<Realstate>();
 
@@ -95,6 +100,8 @@ public class Realstate {
 			}
 		}
 
+		mRealstates = realstates;
+		
 		return realstates;
 	}
 }
