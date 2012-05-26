@@ -3,14 +3,19 @@ package com.br.morecerto.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.view.View.OnTouchListener;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -27,19 +32,24 @@ import com.br.morecerto.controller.network.Response;
 import com.br.morecerto.controller.service.GoogleService;
 import com.br.morecerto.controller.service.IdearService;
 import com.br.morecerto.controller.utility.AnimationUtil;
+import com.br.morecerto.controller.utility.GeoUtil;
 import com.br.morecerto.controller.utility.NumberIcon;
 import com.br.morecerto.model.Realstate;
 import com.br.morecerto.view.IdearListAdapter;
 import com.br.morecerto.view.IdearListItem;
+import com.br.morecerto.view.IdearMapView;
+import com.br.morecerto.view.IdearOverlay;
+import com.br.morecerto.view.OnFocusListener;
+import com.br.morecerto.view.OverlayItem;
+import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
-import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
-public class Map extends MapActivity implements TextWatcher, OnDownloadListener, OnFocusChangeListener, OnClickListener {
+public class Map extends MapActivity implements TextWatcher, OnDownloadListener, OnFocusChangeListener, OnClickListener, OnTouchListener, OnItemClickListener {
 
 	// Views
 	private EditText mSearchField;
-	private MapView mapView;
+	private IdearMapView mMapView;
 	private ListView mListView;
 	private TextView mMsgTextView;
 	private ProgressBar mSpinner;
@@ -58,17 +68,22 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 
 	// Others
 	private android.view.ViewGroup.LayoutParams mSearchFieldParams;
+	private IdearService mIdearService;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
-		IdearService service = new IdearService();
-		service.setOnDownloadListener(this);
-		service.sendNearPlacesRequest(-27.604264, -48.523908, 1);
-
 		findViewById(R.id.search_view).bringToFront();
+
+		mMapView = (IdearMapView) findViewById(R.id.map_view);
+		mMapView.setOnTouchListener(this);
+
+		mIdearService = new IdearService();
+		mIdearService.setOnDownloadListener(this);
+		final GeoPoint point = mMapView.getMapCenter();
+		mIdearService.sendNearPlacesRequest(GeoUtil.toDegree(point.getLatitudeE6()), GeoUtil.toDegree(point.getLongitudeE6()), 1);
 
 		mSearchField = (EditText) findViewById(R.id.search_field);
 		mSearchField.addTextChangedListener(this);
@@ -86,13 +101,12 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 
 		mRequestSender = new Handler();
 
-		mapView = (MapView) findViewById(R.id.map_view);
-
 		mListAdapter = new IdearListAdapter(this, IdearListAdapter.IDEAR_DEFAULT_STYLE);
 		mListAdapter.setRowHeight(45);
 
 		mListView = (ListView) findViewById(R.id.list_view);
 		mListView.setAdapter(mListAdapter);
+		mListView.setOnItemClickListener(this);
 
 		mSearchField.setHint(getResources().getString(R.string.serch_field_msg));
 
@@ -126,7 +140,7 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 			mRunnable = new Runnable() {
 				@Override
 				public void run() {
-					mGoogleService.sendGeocodeRequest(Map.this.mapView.getMapCenter(), mSearchField.getText().toString());
+					mGoogleService.sendGeocodeRequest(Map.this.mMapView.getMapCenter(), mSearchField.getText().toString());
 					showLoading();
 				}
 			};
@@ -142,18 +156,17 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 
 	@Override
 	public void onPreLoad(int type) {
-		Log.i("NETWORK", "PRELOAD");
 	}
 
 	@Override
 	public void onLoad(Response response) {
-		
+
 		final int type = response.getRequest().getType();
-		
+
 		if (type == IdearService.REQUEST_NEAR_PLACES) {
-			
+
 			updateMap(Realstate.updateWithResponse(response));
-			
+
 		} else {
 
 			hideLoading();
@@ -182,11 +195,30 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 	}
 
 	private void updateMap(ArrayList<Realstate> realstates) {
-		Realstate realstate = realstates.get(0);
-		NumberIcon.getIcon(this, realstate.getRating());
-		
-		List<Overlay> mapOverlays = mapView.getOverlays();
-		//mapOverlays.add(new Idear);
+
+		List<Overlay> mapOverlays = mMapView.getOverlays();
+		mapOverlays.clear();
+
+		for (Realstate realstate : realstates) {
+			if (realstates.size() > 0) {
+
+				mapOverlays = mMapView.getOverlays();
+				IdearOverlay mOverlay = new IdearOverlay(NumberIcon.getIcon(this, realstate.getRating()));
+				mOverlay.setOnFocusListener(new OnFocusListener() {
+
+					@Override
+					public void onOverlayItemClick(OverlayItem item) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+				mapOverlays.add(mOverlay);
+				mOverlay.addItem(GeoUtil.toMicroDegree(realstate.lat), GeoUtil.toMicroDegree(realstate.lng));
+				mOverlay.invalidate();
+				mMapView.invalidate();
+
+			}
+		}
 	}
 
 	@Override
@@ -254,10 +286,18 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 
 	@Override
 	public void onClick(View view) {
+		hideSearchOptions();
+
+	}
+
+	private void hideSearchOptions() {
 		mSearchField.clearFocus();
 		mSearchField.setText("");
 		mSearchField.setLayoutParams(new LinearLayout.LayoutParams(mSearchField.getWidth(), LayoutParams.FILL_PARENT));
 		mSearchField.invalidate();
+		
+		InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(mSearchField.getWindowToken(), 0);
 
 		AnimationUtil.executeAnimation(this, R.anim.slide_out_right, mSearchbutton, View.GONE);
 
@@ -273,6 +313,42 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 		AnimationUtil.executeAnimation(this, R.anim.slide_out_top, mSearchMessageWrapper, View.GONE, 300);
 		AnimationUtil.executeAnimation(this, R.anim.fade_out, mSearchListWrapper, View.GONE);
 		mSearchField.invalidate();
+		
+		mListAdapter.removeAll();
+	}
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		if (event.getAction() == MotionEvent.ACTION_UP) {
+			final GeoPoint point = mMapView.getMapCenter();
+			sendNearPlacesRequest(point);
+		}
+		return false;
+	}
+
+	private void sendNearPlacesRequest(GeoPoint point) {
+		mIdearService.clearQueue();
+		mIdearService.sendNearPlacesRequest(GeoUtil.toDegree(point.getLatitudeE6()), GeoUtil.toDegree(point.getLongitudeE6()), 1);
+		
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
+		final DataNode selectedAddress = mSearchResult.get(position);
+		if (selectedAddress != null) {
+			final DataNode geometryNode = selectedAddress.getNode("geometry");
+			if (geometryNode != null) {
+				final DataNode locationNode = geometryNode.getNode("location");
+
+				GeoPoint point = new GeoPoint(GeoUtil.toMicroDegree(locationNode.findDouble("lat", 0.0)), GeoUtil.toMicroDegree(locationNode.findDouble("lng", 0.0)));
+				mMapView.getController().animateTo(point);
+
+				hideSearchOptions();
+				
+				sendNearPlacesRequest(point);
+			}
+		}
 
 	}
+
 }

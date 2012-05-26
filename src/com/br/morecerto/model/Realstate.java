@@ -44,8 +44,8 @@ public class Realstate {
 	
 	public String address;
 	
-	public static int getRating() {
-		return 50;
+	public int getRating() {
+		return (int) Math.round((bankRating + storeRating + barRating + gasStationRating + restaurantRating + restaurantRating + healthRating) / 7);
 	}
 	
 	public static ArrayList<Realstate> updateWithResponse(Response response) {

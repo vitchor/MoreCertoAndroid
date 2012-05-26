@@ -40,5 +40,18 @@ public class IdearService {
 		}
 		mDownloadListener = listener;
 	}
+	
+	public void cancelDownload() {
+		if (mDownloader != null) {
+			mDownloader.cancel(false);
+		}
+	}
+	
+	public void clearQueue() {
+		if (mDownloader != null) {
+			mDownloader.clearQueue();
+		}
+	}
+	
 
 }

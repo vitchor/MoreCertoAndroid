@@ -65,6 +65,10 @@ public class Downloader extends AsyncTask<Object, Object, Object> {
 		super();
 	}
 
+	public void clearQueue() {
+		mRequestQueue.removeAllElements();
+	}
+	
 	public Downloader(HttpURLConnection connection) {
 		super();
 		mConnection = connection;
