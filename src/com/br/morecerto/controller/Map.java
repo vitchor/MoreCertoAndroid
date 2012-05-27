@@ -380,7 +380,6 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 				if (realstate.id.equals(item.getTag())) {
 					Log.i("GOOGLE", realstate.imageUrl);
 					item = new OverlayItem(item.getPoint(), realstate.address, realstate.imageUrl, realstate.agencyUrl, realstate.id);
-					item.setSubtitle(realstate.agencyUrl);
 					item.setClickable(true);
 					// item.setBubbleClickable(true);
 					break;

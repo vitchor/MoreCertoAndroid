@@ -1,10 +1,15 @@
 package com.br.morecerto.view;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import com.br.morecerto.controller.network.Downloader;
+import com.br.morecerto.controller.network.OnDownloadListener;
+import com.br.morecerto.controller.network.Response;
+import com.br.morecerto.controller.network.UrlAddress;
 import com.br.morecerto.controller.utility.ILocation;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
@@ -13,29 +18,44 @@ public class IdearMapView extends MapView implements OnClickListener {
 
 	private BubbleOverlayView<OverlayItem> mBubbleOverlayView;
 	private OnBubbleClickListener mListener;
+	private Downloader mDownloader;
 
 	public IdearMapView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 
-	private void showBubble(String title, GeoPoint point, Object tag, boolean isClickable) {
+	private void showBubble(String title, String subtitle, String imageUrl, GeoPoint point, Object tag, boolean isClickable) {
 		if (title != null && !title.equals("") && point != null) {
+
+			if (mDownloader == null) {
+				mDownloader = new Downloader();
+			} else {
+				mDownloader.cancel(true);
+				mDownloader.clearQueue();
+			}
+			
 			removeAllViews();
 			mBubbleOverlayView = new BubbleOverlayView<OverlayItem>(getContext(), isClickable);
 			MapView.LayoutParams params = new MapView.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, point, MapView.LayoutParams.BOTTOM_CENTER);
 			params.mode = MapView.LayoutParams.MODE_MAP;
 			addView(mBubbleOverlayView, params);
 			mBubbleOverlayView.setTitle(title);
+			mBubbleOverlayView.setSubtitle(subtitle);
 			mBubbleOverlayView.setTag(tag);
 			if (isClickable) {
 				mBubbleOverlayView.setOnClickListener(this);
 			}
+
+			if (imageUrl != null) {
+				loadImage(imageUrl, mBubbleOverlayView);
+			}
+
 		}
 	}
 
 	public void showBubble(OverlayItem item) {
 		if (item != null) {
-			showBubble(item.getTitle(), item.getPoint(), item.getTag(), item.isBubbleClickable());
+			showBubble(item.getTitle(), item.getSubtitle(), item.getImageUrl(), item.getPoint(), item.getTag(), item.isBubbleClickable());
 		}
 	}
 
@@ -68,7 +88,7 @@ public class IdearMapView extends MapView implements OnClickListener {
 		}
 		super.invalidate();
 	}
-	
+
 	public ILocation getMapCenterLocation() {
 		final GeoPoint point = getMapCenter();
 		final ILocation iLocation = new ILocation() {
@@ -83,6 +103,17 @@ public class IdearMapView extends MapView implements OnClickListener {
 			}
 		};
 		return iLocation;
+	}
+
+	private void loadImage(String pictureUrl, OnDownloadListener listener) {
+		if (pictureUrl != null) {
+			if (mDownloader == null || mDownloader.getStatus() == AsyncTask.Status.FINISHED) {
+				mDownloader = new Downloader();
+			}
+			mDownloader.setOnDownloadListener(listener);
+
+			mDownloader.addDownload(new UrlAddress(pictureUrl), 0, Response.IMAGE_TYPE, Downloader.DOWNLOADER_HIGH_PRIORITY);
+		}
 	}
 
 }

@@ -20,7 +20,7 @@ public class OverlayItem extends com.google.android.maps.OverlayItem implements 
 	
 	public String getImageUrl() {
 		return mImageUrl;
-	
+	}
 	
 	public OverlayItem(GeoPoint point, String title, String snippet) {
 		super(point, title, snippet);
@@ -33,12 +33,13 @@ public class OverlayItem extends com.google.android.maps.OverlayItem implements 
 		this.mPoint = point;
 	}
 
-	public OverlayItem(GeoPoint point, String address, String imageUrl, String agencyUrl, String id) {
+	public OverlayItem(GeoPoint point, String address, String imageUrl, String subtitle, String id) {
 		super(point, address, address);
 		this.tag = id;
 		this.mPoint = point;
 		this.mImageUrl = imageUrl;
-		
+		this.mSubtitle = subtitle;
+		this.mImageUrl= imageUrl;
 	}
 
 	@Override
