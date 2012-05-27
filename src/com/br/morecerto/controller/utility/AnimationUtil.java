@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
+import com.br.morecerto.R;
+
 public class AnimationUtil {
 
 	public static void executeAnimation(Context context, int animationRes, View view, int visibility) {
@@ -33,6 +35,21 @@ public class AnimationUtil {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+	
+
+	public static void fadeIn(Context context, View view) {
+		if (view != null && (view.getVisibility() == View.INVISIBLE || view.getVisibility() == View.GONE)) {
+			view.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in));
+			view.setVisibility(View.VISIBLE);
+		}
+	}
+
+	public static void fadeOut(Context context, View view, int visibility) {
+		if (view != null && view.getVisibility() == View.VISIBLE) {
+			view.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_out));
+			view.setVisibility(visibility);
 		}
 	}
 }

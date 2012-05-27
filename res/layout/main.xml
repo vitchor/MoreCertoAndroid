@@ -1,176 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+
+<LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
-	>
-	
-	<!-- Dummy item to prevent AutoCompleteTextView from receiving focus -->
-	<LinearLayout
-		android:focusable="true" 
-		android:focusableInTouchMode="true"
-		android:layout_width="0px" 
-		android:layout_height="0px"/>
+	android:orientation="vertical"
+	>	
 
-	<LinearLayout
-		android:id="@+id/search_view"
-		android:layout_width="fill_parent" 
-		android:layout_height="wrap_content"
-		android:orientation="vertical"
-		>
-		
-		<LinearLayout
-			android:layout_width="fill_parent"
-			android:layout_height="1dp"
-			android:background="#353535"
-			/>
-		
-		<LinearLayout
-			android:layout_width="fill_parent"
-			android:layout_height="1dp"
-			android:background="#202020"
-			/>
-		
-		<LinearLayout
-			android:layout_width="fill_parent" 
-			android:layout_height="45dp"
-			android:padding="5dp" 
-			android:orientation="horizontal"
-			android:background="@drawable/toolbar"
-			android:layout_alignParentTop = "true"
-			>
-		
-			<EditText 
-				android:id="@+id/search_field"
-				android:layout_width="fill_parent" 
-				android:layout_height="fill_parent"
-				android:background="@drawable/search_bar_border"
-				android:layout_weight="1"
-				android:textSize="14dp" 
-				android:inputType="none"
-				android:autoText="false" 
-				android:lines="1"
-				android:singleLine="true"
-				android:ellipsize="end"
-				android:paddingLeft="15dp"
-				/>
-			
-			<Button 
-				android:id="@+id/search_button"
-				android:visibility="gone"
-				style="@style/toolbarButton"
-				android:layout_width="wrap_content" 
-				android:layout_height="fill_parent"
-				android:layout_marginLeft="7dp" 
-				android:text="Cancelar"
-				/>
-		
-		</LinearLayout>
+	<com.br.morecerto.view.IdearToolbar
+		android:id="@+id/toolbar"
+		android:layout_width="fill_parent"
+		android:layout_height="45dp"
+		android:layout_alignParentTop="true"
+	/>
 	
-		<LinearLayout
-			android:layout_width="fill_parent"
-			android:layout_height="1dp"
-			android:background="#202020"
-			/>
-			
-		<LinearLayout
-			android:layout_width="fill_parent"
-			android:layout_height="1dp"
-			android:background="#353535"
-			/>
-		
-	
-	</LinearLayout>
-	
-	<com.br.morecerto.view.IdearMapView
-		android:id="@+id/map_view"
+	<RelativeLayout
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
-		android:clickable="true"
-		android:apiKey="0FnqUP7EgzaY-Y1BeJ9uIpKl4sqPfXYAbmfAdzA"
-		android:layout_weight="1"
-		android:layout_below = "@id/search_view"
-		/>
-	
-	<LinearLayout
-		android:id="@+id/search_message_layout_wrapper"
-		android:layout_width="fill_parent" 
-		android:layout_height="wrap_content"
-		android:orientation="vertical"
-		android:layout_below = "@id/search_view"
-		android:visibility="gone"
 		>
 		
+		<!-- Dummy item to prevent AutoCompleteTextView from receiving focus -->
 		<LinearLayout
-			android:layout_width="fill_parent"
-			android:layout_height="22.5dp"
-			android:layout_centerInParent="true"
-			android:gravity="center"
-			android:background="#BB000000"
+			android:focusable="true" 
+			android:focusableInTouchMode="true"
+			android:layout_width="0px" 
+			android:layout_height="0px"/>
+	
+		<LinearLayout
+			android:id="@+id/search_view"
+			android:layout_width="fill_parent" 
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
 			>
 			
-			<ProgressBar
-				android:id="@+id/spinner"
-				style="@style/darkProgressBar"
-				android:layout_width="20dp"
-				android:layout_height="20dp"
-				android:visibility="gone"
-				/>
-		
-			<TextView 
-				android:id="@+id/msg_text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginLeft="7dp"
-				android:textColor="#F0F0F0"
-				android:textSize="17dp"
-				android:maxWidth="220dp"
-				android:text="@string/type_to_start_search"
+			<LinearLayout
+				android:layout_width="fill_parent"
+				android:layout_height="1dp"
+				android:background="#353535"
 				/>
 			
-		</LinearLayout>
-	
-		<LinearLayout
-			android:layout_width="fill_parent"
-			android:layout_height="1dp"
-			android:background="#202020"
-			/>
-		<LinearLayout
-			android:layout_width="fill_parent"
-			android:layout_height="1dp"
-			android:background="#353535"
-			/>
+			<LinearLayout
+				android:layout_width="fill_parent"
+				android:layout_height="1dp"
+				android:background="#202020"
+				/>
 			
+			<LinearLayout
+				android:layout_width="fill_parent" 
+				android:layout_height="45dp"
+				android:padding="5dp" 
+				android:orientation="horizontal"
+				android:background="@drawable/toolbar"
+				android:layout_alignParentTop = "true"
+				>
+			
+				<EditText 
+					android:id="@+id/search_field"
+					android:layout_width="fill_parent" 
+					android:layout_height="fill_parent"
+					android:background="@drawable/search_bar_border"
+					android:layout_weight="1"
+					android:textSize="14dp" 
+					android:inputType="none"
+					android:autoText="false" 
+					android:lines="1"
+					android:singleLine="true"
+					android:ellipsize="end"
+					android:paddingLeft="15dp"
+					/>
+				
+				<Button 
+					android:id="@+id/search_button"
+					android:visibility="gone"
+					style="@style/toolbarButton"
+					android:layout_width="wrap_content" 
+					android:layout_height="fill_parent"
+					android:layout_marginLeft="7dp" 
+					android:text="Cancelar"
+					/>
+			
+			</LinearLayout>
+		
+			<LinearLayout
+				android:layout_width="fill_parent"
+				android:layout_height="1dp"
+				android:background="#202020"
+				/>
+				
+			<LinearLayout
+				android:layout_width="fill_parent"
+				android:layout_height="1dp"
+				android:background="#353535"
+				/>
+			
+		
 		</LinearLayout>
 		
-	<LinearLayout
-		android:id="@+id/search_list_wrapper"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:layout_below="@id/search_message_layout_wrapper"
-		android:background="#DDFFFFFF"
-		android:orientation="vertical"
-		android:visibility="gone"
-		>
+		<com.br.morecerto.view.IdearMapView
+			android:id="@+id/map_view"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:clickable="true"
+			android:apiKey="0FnqUP7EgzaY-Y1BeJ9uIpKl4sqPfXYAbmfAdzA"
+			android:layout_weight="1"
+			android:layout_below = "@id/search_view"
+			/>
 		
-		<ListView 
-			android:id="@+id/list_view" 
+		<LinearLayout
+			android:id="@+id/search_message_layout_wrapper"
+			android:layout_width="fill_parent" 
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:layout_below = "@id/search_view"
+			android:visibility="gone"
+			>
+			
+			<LinearLayout
+				android:layout_width="fill_parent"
+				android:layout_height="22.5dp"
+				android:layout_centerInParent="true"
+				android:gravity="center"
+				android:background="#BB000000"
+				>
+				
+				<ProgressBar
+					android:id="@+id/spinner"
+					style="@style/darkProgressBar"
+					android:layout_width="20dp"
+					android:layout_height="20dp"
+					android:visibility="gone"
+					/>
+			
+				<TextView 
+					android:id="@+id/msg_text"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="7dp"
+					android:textColor="#F0F0F0"
+					android:textSize="17dp"
+					android:maxWidth="220dp"
+					android:text="@string/type_to_start_search"
+					/>
+				
+			</LinearLayout>
+		
+			<LinearLayout
+				android:layout_width="fill_parent"
+				android:layout_height="1dp"
+				android:background="#202020"
+				/>
+			<LinearLayout
+				android:layout_width="fill_parent"
+				android:layout_height="1dp"
+				android:background="#353535"
+				/>
+				
+			</LinearLayout>
+			
+		<LinearLayout
+			android:id="@+id/search_list_wrapper"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:clickable="true"
-			android:divider="@color/table_separator" 
-			android:cacheColorHint="@android:color/white"
-			android:listSelector="@drawable/idear_middle_row"
-			android:dividerHeight="1dp"
 			android:layout_below="@id/search_message_layout_wrapper"
-			/>
+			android:background="#DDFFFFFF"
+			android:orientation="vertical"
+			android:visibility="gone"
+			>
 			
-		<LinearLayout
-			android:layout_width="fill_parent"
-			android:layout_height="1dp"
-			android:background="@color/table_separator"
-			/>
-			
-	</LinearLayout>
-	
-</RelativeLayout>
+			<ListView 
+				android:id="@+id/list_view" 
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:clickable="true"
+				android:divider="@color/table_separator" 
+				android:cacheColorHint="@android:color/white"
+				android:listSelector="@drawable/idear_middle_row"
+				android:dividerHeight="1dp"
+				android:layout_below="@id/search_message_layout_wrapper"
+				/>
+				
+			<LinearLayout
+				android:layout_width="fill_parent"
+				android:layout_height="1dp"
+				android:background="@color/table_separator"
+				/>
+				
+		</LinearLayout>
+		
+	</RelativeLayout>
+
+</LinearLayout>

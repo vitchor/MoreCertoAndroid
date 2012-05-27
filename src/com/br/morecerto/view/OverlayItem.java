@@ -9,7 +9,19 @@ public class OverlayItem extends com.google.android.maps.OverlayItem implements 
 	private boolean mIsClickable = false;
 	private boolean mIsBubbleClickable = false;
 	private GeoPoint mPoint;
+	
+	private String mSubtitle;
+	private String mImageUrl;
+	
 
+	public String getSubtitle() {
+		return mSubtitle;
+	}
+	
+	public String getImageUrl() {
+		return mImageUrl;
+	
+	
 	public OverlayItem(GeoPoint point, String title, String snippet) {
 		super(point, title, snippet);
 		this.mPoint = point;
@@ -19,6 +31,14 @@ public class OverlayItem extends com.google.android.maps.OverlayItem implements 
 		super(point, title, snippet);
 		this.tag = tag;
 		this.mPoint = point;
+	}
+
+	public OverlayItem(GeoPoint point, String address, String imageUrl, String agencyUrl, String id) {
+		super(point, address, address);
+		this.tag = id;
+		this.mPoint = point;
+		this.mImageUrl = imageUrl;
+		
 	}
 
 	@Override

@@ -3,7 +3,7 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_height="wrap_content"
 	android:layout_width="wrap_content" 
-	android:orientation="horizontal" 
+	android:orientation="vertical" 
 	android:gravity="center"
 	android:background="@drawable/bg_bubble" 
 	android:layout_marginBottom="16dp"
@@ -23,6 +23,7 @@
 		android:ellipsize="end"
 		android:maxWidth="250dp"
 		/>
+	
 		
 	<ImageView
 		android:src="@drawable/ic_white_disclosure_arrow"

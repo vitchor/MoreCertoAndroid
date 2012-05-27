@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -208,7 +209,7 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 				mOverlay.setOnFocusListener(this);
 				mapOverlays.add(mOverlay);
 
-				final OverlayItem item = new OverlayItem(new GeoPoint(GeoUtil.toMicroDegree(realstate.lat), GeoUtil.toMicroDegree(realstate.lng)), realstate.address, realstate.type, realstate.id);
+				final OverlayItem item = new OverlayItem(new GeoPoint(GeoUtil.toMicroDegree(realstate.lat), GeoUtil.toMicroDegree(realstate.lng)), realstate.address, realstate.agencyUrl, realstate.id);
 				item.setClickable(true);
 				mOverlay.addItem(item);
 
@@ -230,14 +231,17 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 	private void updateList() {
 		if (mSearchResult != null) {
 
-			mListAdapter.removeAll();
-
+			mListAdapter = new IdearListAdapter(this, IdearListAdapter.IDEAR_DEFAULT_STYLE);
+			mListAdapter.setRowHeight(45);
+			
 			int i = 0;
 			for (DataNode dataNode : mSearchResult) {
 				final IdearListItem item = new IdearListItem(i, dataNode.findString("formatted_address", ""));
 				mListAdapter.addItem(item);
 				i++;
 			}
+			
+			mListView.setAdapter(mListAdapter);
 		}
 		if (mSearchResult.size() > 3) {
 			mListView.getLayoutParams().height = mListAdapter.getRowHeight() * 3;
@@ -250,9 +254,11 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 		} else {
 			AnimationUtil.executeAnimation(this, R.anim.fade_out, mSearchListWrapper, View.GONE);
 
-			mListAdapter.notifyDataSetChanged();
+			 
+			mListAdapter.notifyDataSetInvalidated();
 			mListView.invalidate();
-			onContentChanged();
+			//mListView.
+			//onContentChanged();
 		}
 	}
 
@@ -372,7 +378,9 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 			ArrayList<Realstate> realstates = Realstate.mRealstates;
 			for (Realstate realstate : realstates) {
 				if (realstate.id.equals(item.getTag())) {
-					item = new OverlayItem(item.getPoint(), realstate.address, "", realstate.id);
+					Log.i("GOOGLE", realstate.imageUrl);
+					item = new OverlayItem(item.getPoint(), realstate.address, realstate.imageUrl, realstate.agencyUrl, realstate.id);
+					item.setSubtitle(realstate.agencyUrl);
 					item.setClickable(true);
 					// item.setBubbleClickable(true);
 					break;

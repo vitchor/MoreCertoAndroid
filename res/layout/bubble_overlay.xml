@@ -11,18 +11,53 @@
 	android:gravity="center"
 	>
 	
-	<TextView 
-		android:id="@+id/bubble_title"
-		style ="@style/smallDarkShadow"
+	
+	<ImageView
+		android:id ="@+id/image_view"
+		android:layout_width ="60dp"
+		android:layout_height ="60dp"
+		android:scaleType="centerCrop"
+		android:src = "@drawable/ic_menu_home"
+		android:background = "@drawable/square_border"
+		android:padding = "2dp"
+		android:cropToPadding="true"
+		/>
+		
+	<LinearLayout
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content" 
-		android:paddingRight="8dp"
-		android:paddingLeft="8dp"
-		android:textSize="16dp"
-		android:textColor="#ffffff"
-		android:singleLine="true"
-		android:ellipsize="end"
-		android:maxWidth="300dp"
-		/>
+		android:orientation="vertical"
+		android:gravity="center"
+		>
+		
+		<TextView 
+			android:id="@+id/bubble_title"
+			style ="@style/smallDarkShadow"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content" 
+			android:paddingLeft="8dp"
+			android:textSize="16dp"
+			android:textColor="#ffffff"
+			android:singleLine="true"
+			android:ellipsize="end"
+			android:maxWidth="300dp"
+			/>
 			
+		<TextView 
+			android:id="@+id/bubble_subtitle"
+			style ="@style/smallDarkShadow"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:paddingTop="2dp"
+			android:paddingBottom="2dp"
+			android:paddingLeft="8dp"
+			android:textSize="12dp"
+			android:textColor="#ffffff"
+			android:singleLine="true"
+			android:ellipsize="end"
+			android:clickable="true"
+			android:autoLink="web"
+			/>
+		
+		</LinearLayout>
 </LinearLayout>

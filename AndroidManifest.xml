@@ -17,7 +17,9 @@
 		
 		<activity 
 			android:name=".controller.Map"
-			android:label="@string/app_name">
+			android:label="@string/app_name"
+			android:theme="@android:style/Theme.NoTitleBar"
+			>
 			
 			<intent-filter>
 				<action 

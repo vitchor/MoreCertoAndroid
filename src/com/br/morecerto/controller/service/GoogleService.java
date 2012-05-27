@@ -41,9 +41,11 @@ public class GoogleService {
 			final double latitude = GeoUtil.toDegree(position.getLatitudeE6());
 			final double longitude = GeoUtil.toDegree(position.getLongitudeE6());
 			String paramsPath = GOOGLE_API_PATH;
-			paramsPath += "?address=" + URLEncoder.encode(geoAddress);
-			paramsPath += "&bounds=" + URLEncoder.encode((latitude - 0.02) + "," + (longitude - 0.02) + "|" + (latitude + 0.02) + "," + (longitude + 0.02));
+			paramsPath += "?address=" + URLEncoder.encode(geoAddress+ "..., BR");
+			paramsPath += "&bounds=" + URLEncoder.encode((latitude - 0.1) + "," + (longitude - 0.1) + "|" + (latitude + 0.1) + "," + (longitude + 0.1));
 			paramsPath += "&sensor=true";
+			paramsPath += "&language=pt-BR";
+			paramsPath += "&region=br";
 			sendRequest(GOOGLE_API_URL, paramsPath, REQUEST_GEOCODE, Response.JSON_TYPE);
 		}
 	}
