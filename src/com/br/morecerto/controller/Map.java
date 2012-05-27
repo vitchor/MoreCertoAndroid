@@ -40,6 +40,7 @@ import com.br.morecerto.view.IdearListAdapter;
 import com.br.morecerto.view.IdearListItem;
 import com.br.morecerto.view.IdearMapView;
 import com.br.morecerto.view.IdearOverlay;
+import com.br.morecerto.view.IdearToolbar;
 import com.br.morecerto.view.OnFocusListener;
 import com.br.morecerto.view.OverlayItem;
 import com.google.android.maps.GeoPoint;
@@ -57,6 +58,7 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 	private Button mSearchbutton;
 	private LinearLayout mSearchMessageWrapper;
 	private LinearLayout mSearchListWrapper;
+	private IdearToolbar mToolbar;
 
 	// Controllers
 	private GoogleService mGoogleService;

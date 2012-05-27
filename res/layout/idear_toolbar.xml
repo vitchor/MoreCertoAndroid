@@ -33,6 +33,7 @@
 			android:layout_height="fill_parent"
 			android:layout_alignParentLeft="true"
 			android:layout_weight="1"
+			android:visibility="gone"
 			>
 			
 			<Button
@@ -42,7 +43,7 @@
 				android:layout_height="fill_parent"
 				android:layout_alignParentLeft="true"
 				android:minWidth="50dp"
-				android:visibility="invisible"
+				android:visibility="gone"
 				/>
 				
 			<ImageButton
@@ -50,9 +51,9 @@
 				android:layout_width="wrap_content"
 				android:layout_height="fill_parent"
 				android:layout_alignParentLeft="true"
-				android:visibility="invisible"
 				android:scaleType="centerInside"
 				android:background="@drawable/toolbar_button"
+				android:visibility="gone"
 				/>
 				
 		</RelativeLayout>
@@ -63,19 +64,18 @@
 			android:layout_width="wrap_content"
 			android:layout_height="fill_parent"
 			android:layout_centerInParent="true"
-			android:text="@string/app_name"
 			android:textColor="@android:color/white"
 			android:textSize="22dp"
+			android:visibility="gone"
 			/>
 			
 		<ImageView
 			android:id="@+id/image_title"
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
-			android:layout_centerInParent="true"
-			android:src="@drawable/icon"
-			android:visibility="gone"
-			
+			android:layout_alignParentLeft="true"
+			android:layout_centerVertical="true"
+			android:src="@drawable/ic_morecerto"
 			/>
 			
 		<RelativeLayout
