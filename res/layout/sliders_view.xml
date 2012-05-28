@@ -158,7 +158,7 @@
 			<TextView
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
-				android:text="Preço"
+				android:text="Preço Baixo"
 				android:textSize="14dp"
 				android:gravity="center"
 				android:layout_marginTop="15dp"

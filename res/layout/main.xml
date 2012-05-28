@@ -130,7 +130,7 @@
 				android:layout_height="22.5dp"
 				android:layout_centerInParent="true"
 				android:gravity="center"
-				android:background="#BB000000"
+				android:background="#DD000000"
 				>
 				
 				<ProgressBar
@@ -172,7 +172,7 @@
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:layout_below="@id/search_message_layout_wrapper"
-			android:background="#DDFFFFFF"
+			android:background="#EfFFFFFF"
 			android:orientation="vertical"
 			android:visibility="gone"
 			>

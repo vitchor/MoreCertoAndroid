@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -38,7 +41,6 @@ import com.br.morecerto.controller.utility.AnimationUtil;
 import com.br.morecerto.controller.utility.GeoUtil;
 import com.br.morecerto.controller.utility.NumberIcon;
 import com.br.morecerto.model.Realstate;
-import com.br.morecerto.view.IdearDialog;
 import com.br.morecerto.view.IdearListAdapter;
 import com.br.morecerto.view.IdearListItem;
 import com.br.morecerto.view.IdearMapView;
@@ -83,6 +85,8 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 
 	private View mSlidersView;
 
+	private Location mActuallocation;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -98,6 +102,36 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 
 		mMapView = (IdearMapView) findViewById(R.id.map_view);
 		mMapView.setOnTouchListener(this);
+
+		LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+
+		mActuallocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+		if (mActuallocation != null) {
+			mMapView.getController().setCenter(new GeoPoint(GeoUtil.toMicroDegree(mActuallocation.getLatitude()), GeoUtil.toMicroDegree(mActuallocation.getLongitude())));
+		}
+
+		LocationListener locationListener = new LocationListener() {
+			public void onLocationChanged(Location location) {
+				if (mActuallocation == null || mActuallocation.distanceTo(location) > 300) {
+					mMapView.getController().setCenter(new GeoPoint(GeoUtil.toMicroDegree(location.getLatitude()), GeoUtil.toMicroDegree(location.getLongitude())));
+				}
+
+				final LocationManager locationManager = (LocationManager) Map.this.getSystemService(Context.LOCATION_SERVICE);
+				locationManager.removeUpdates(this);
+			}
+
+			public void onStatusChanged(String provider, int status, Bundle extras) {
+			}
+
+			public void onProviderEnabled(String provider) {
+			}
+
+			public void onProviderDisabled(String provider) {
+			}
+		};
+
+		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
 
 		mIdearService = new IdearService();
 		mIdearService.setOnDownloadListener(this);
@@ -421,10 +455,10 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 	public void onToolbarItemClick(View view) {
 		ToggleButton button = (ToggleButton) view;
 		if (button.isChecked()) {
-			//AnimationUtil.fadeIn(this, mSlidersView);
+			// AnimationUtil.fadeIn(this, mSlidersView);
 			mSlidersView.setVisibility(View.VISIBLE);
 		} else {
-			//AnimationUtil.fadeOut(this, mSlidersView, View.GONE);
+			// AnimationUtil.fadeOut(this, mSlidersView, View.GONE);
 			mSlidersView.setVisibility(View.GONE);
 		}
 
