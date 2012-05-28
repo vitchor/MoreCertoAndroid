@@ -1,6 +1,5 @@
 package com.br.morecerto.controller;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -188,6 +187,7 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 
 	private void setRankListeners() {
 
+		@SuppressWarnings("rawtypes")
 		Class[] parameterTypes = new Class[1];
 		parameterTypes[0] = Integer.class;
 		Method method;
@@ -309,7 +309,7 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 
 		if (type == IdearService.REQUEST_NEAR_PLACES) {
 			mActualRealstates = Realstate.updateWithResponse(response);
-			
+
 			updateMap(mActualRealstates);
 
 		} else {
@@ -343,23 +343,24 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 
 		List<Overlay> mapOverlays = mMapView.getOverlays();
 		mapOverlays.clear();
+		if (realstates != null) {
+			for (Realstate realstate : realstates) {
+				if (realstates.size() > 0) {
 
-		for (Realstate realstate : realstates) {
-			if (realstates.size() > 0) {
+					mapOverlays = mMapView.getOverlays();
+					IdearOverlay mOverlay = new IdearOverlay(NumberIcon.getIcon(this, realstate.getRating()));
+					// mOverlay.
+					mOverlay.setOnFocusListener(this);
+					mapOverlays.add(mOverlay);
 
-				mapOverlays = mMapView.getOverlays();
-				IdearOverlay mOverlay = new IdearOverlay(NumberIcon.getIcon(this, realstate.getRating()));
-				// mOverlay.
-				mOverlay.setOnFocusListener(this);
-				mapOverlays.add(mOverlay);
+					final OverlayItem item = new OverlayItem(new GeoPoint(GeoUtil.toMicroDegree(realstate.lat), GeoUtil.toMicroDegree(realstate.lng)), realstate.address, realstate.agencyUrl, realstate.id);
+					item.setClickable(true);
+					mOverlay.addItem(item);
 
-				final OverlayItem item = new OverlayItem(new GeoPoint(GeoUtil.toMicroDegree(realstate.lat), GeoUtil.toMicroDegree(realstate.lng)), realstate.address, realstate.agencyUrl, realstate.id);
-				item.setClickable(true);
-				mOverlay.addItem(item);
+					mOverlay.invalidate();
+					mMapView.invalidate();
 
-				mOverlay.invalidate();
-				mMapView.invalidate();
-
+				}
 			}
 		}
 	}
@@ -541,7 +542,7 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 			mSlidersView.setVisibility(View.VISIBLE);
 		} else {
 			// AnimationUtil.fadeOut(this, mSlidersView, View.GONE);
-			updateMap(mActualRealstates); 
+			updateMap(mActualRealstates);
 			mSlidersView.setVisibility(View.GONE);
 		}
 

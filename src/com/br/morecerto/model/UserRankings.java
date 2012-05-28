@@ -1,6 +1,5 @@
 package com.br.morecerto.model;
 
-import android.util.Log;
 
 public class UserRankings {
 
@@ -21,6 +20,7 @@ public class UserRankings {
 		
 		return bankRating + storeRating + barRating + gasStationRating + restaurantRating + marketRating + healthRating + priceRating;
 	}
+
 	public static void setPriceRating(Integer priceRating) {
 		UserRankings.priceRating = priceRating;
 	}
