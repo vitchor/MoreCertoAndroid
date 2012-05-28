@@ -1,5 +1,7 @@
 package com.br.morecerto.controller;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +29,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout.LayoutParams;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -41,6 +45,7 @@ import com.br.morecerto.controller.utility.AnimationUtil;
 import com.br.morecerto.controller.utility.GeoUtil;
 import com.br.morecerto.controller.utility.NumberIcon;
 import com.br.morecerto.model.Realstate;
+import com.br.morecerto.model.UserRankings;
 import com.br.morecerto.view.IdearListAdapter;
 import com.br.morecerto.view.IdearListItem;
 import com.br.morecerto.view.IdearMapView;
@@ -86,6 +91,8 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 	private View mSlidersView;
 
 	private Location mActuallocation;
+
+	private ArrayList<Realstate> mActualRealstates;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -175,6 +182,80 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 				return true;
 			}
 		});
+
+		setRankListeners();
+	}
+
+	private void setRankListeners() {
+
+		Class[] parameterTypes = new Class[1];
+		parameterTypes[0] = Integer.class;
+		Method method;
+		SeekBar bar;
+		try {
+
+			method = UserRankings.class.getMethod("setBarRating", parameterTypes);
+			bar = (SeekBar) mSlidersView.findViewById(R.id.bar_rank);
+			connectBarToRank(bar, method);
+
+			method = UserRankings.class.getMethod("setBankRating", parameterTypes);
+			bar = (SeekBar) mSlidersView.findViewById(R.id.bank_rank);
+			connectBarToRank(bar, method);
+
+			method = UserRankings.class.getMethod("setHealthRating", parameterTypes);
+			bar = (SeekBar) mSlidersView.findViewById(R.id.hospital_rank);
+			connectBarToRank(bar, method);
+
+			method = UserRankings.class.getMethod("setStoreRating", parameterTypes);
+			bar = (SeekBar) mSlidersView.findViewById(R.id.store_rank);
+			connectBarToRank(bar, method);
+
+			method = UserRankings.class.getMethod("setRestaurantRating", parameterTypes);
+			bar = (SeekBar) mSlidersView.findViewById(R.id.restaurants_rank);
+			connectBarToRank(bar, method);
+
+			method = UserRankings.class.getMethod("setMarketRating", parameterTypes);
+			bar = (SeekBar) mSlidersView.findViewById(R.id.supermarket_rank);
+			connectBarToRank(bar, method);
+
+			method = UserRankings.class.getMethod("setGasStationRating", parameterTypes);
+			bar = (SeekBar) mSlidersView.findViewById(R.id.gas_station_rank);
+			connectBarToRank(bar, method);
+
+			method = UserRankings.class.getMethod("setPriceRating", parameterTypes);
+			bar = (SeekBar) mSlidersView.findViewById(R.id.price_rank);
+			connectBarToRank(bar, method);
+		} catch (Exception e) {
+			Log.i("GOOGLE", "Exception 1!" + e.toString());
+			e.printStackTrace();
+		}
+
+	}
+
+	private void connectBarToRank(SeekBar bar, final Method method) {
+		bar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+			}
+
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+				Object[] parameters = new Object[1];
+				parameters[0] = new Integer(progress);
+				Object obj = new UserRankings();
+				try {
+					method.invoke(obj, parameters);
+				} catch (Exception e) {
+					Log.i("GOOGLE", "Exception2!" + e.toString());
+					e.printStackTrace();
+				}
+			}
+		});
+
 	}
 
 	@Override
@@ -227,8 +308,9 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 		final int type = response.getRequest().getType();
 
 		if (type == IdearService.REQUEST_NEAR_PLACES) {
-
-			updateMap(Realstate.updateWithResponse(response));
+			mActualRealstates = Realstate.updateWithResponse(response);
+			
+			updateMap(mActualRealstates);
 
 		} else {
 
@@ -459,6 +541,7 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 			mSlidersView.setVisibility(View.VISIBLE);
 		} else {
 			// AnimationUtil.fadeOut(this, mSlidersView, View.GONE);
+			updateMap(mActualRealstates); 
 			mSlidersView.setVisibility(View.GONE);
 		}
 

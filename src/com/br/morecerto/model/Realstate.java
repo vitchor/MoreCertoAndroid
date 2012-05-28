@@ -47,7 +47,11 @@ public class Realstate {
 	public String id;
 
 	public int getRating() {
-		return (int) Math.round((bankRating + storeRating + barRating + gasStationRating + restaurantRating + restaurantRating + healthRating) / 7);
+		return (int) Math.round((bankRating * UserRankings.bankRating + storeRating * UserRankings.storeRating + barRating * UserRankings.barRating + gasStationRating * UserRankings.gasStationRating + restaurantRating * UserRankings.restaurantRating + restaurantRating * UserRankings.restaurantRating + healthRating * UserRankings.healthRating + getPriceRating() * UserRankings.priceRating) / UserRankings.getSum());
+	}
+
+	private double getPriceRating() {
+		return 50;
 	}
 
 	public static ArrayList<Realstate> updateWithResponse(Response response) {

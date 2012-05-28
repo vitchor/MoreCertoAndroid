@@ -8,6 +8,7 @@
 	android:background="#F5000000"
 	>
 
+	
 	<TextView
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
@@ -17,7 +18,8 @@
 		android:padding="8dp"
 		android:layout_marginTop="20dp"
 		android:includeFontPadding="false"
-		android:background="@color/transparent"/>
+		android:background="@color/transparent"
+		android:textStyle="bold"/>
 	
 	<LinearLayout
 		android:layout_width="fill_parent"
@@ -45,6 +47,7 @@
 				/>
 				
 			<SeekBar
+				android:id="@+id/bar_rank"
 				android:layout_width="120dp"
 				android:layout_height="20dp"
 				android:max="100"
@@ -61,6 +64,7 @@
 				/>	
 				
 			<SeekBar
+				android:id="@+id/bank_rank"
 				android:layout_width="120dp"
 				android:layout_height="20dp"
 				android:max="100"
@@ -77,6 +81,7 @@
 				/>	
 				
 			<SeekBar
+				android:id="@+id/hospital_rank"
 				android:layout_width="120dp"
 				android:layout_height="20dp"
 				android:max="100"
@@ -93,6 +98,7 @@
 				/>	
 				
 			<SeekBar
+				android:id="@+id/store_rank"
 				android:layout_width="120dp"
 				android:layout_height="20dp"
 				android:max="100"
@@ -117,6 +123,7 @@
 				/>
 				
 			<SeekBar
+				android:id="@+id/restaurants_rank"
 				android:layout_width="120dp"
 				android:layout_height="20dp"
 				android:max="100"
@@ -133,6 +140,7 @@
 				/>	
 				
 			<SeekBar
+				android:id="@+id/supermarket_rank"
 				android:layout_width="120dp"
 				android:layout_height="20dp"
 				android:max="100"
@@ -149,6 +157,7 @@
 				/>	
 				
 			<SeekBar
+				android:id="@+id/gas_station_rank"
 				android:layout_width="120dp"
 				android:layout_height="20dp"
 				android:max="100"
@@ -162,9 +171,10 @@
 				android:textSize="14dp"
 				android:gravity="center"
 				android:layout_marginTop="15dp"
-				/>	
+				/>
 				
 			<SeekBar
+				android:id="@+id/price_rank"
 				android:layout_width="120dp"
 				android:layout_height="20dp"
 				android:max="100"
@@ -175,5 +185,42 @@
 		</LinearLayout>
 	
 	</LinearLayout>
+	
+	<RelativeLayout
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+		
+		<TextView
+			android:id="@+id/contact_email"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:text="contato@morecerto.com.br"
+			android:textSize="16dp"
+			android:gravity="center|bottom"
+			android:includeFontPadding="false"
+			android:background="#000000"
+			android:layout_alignParentBottom="true"
+			android:autoLink="email"
+			android:paddingBottom="5dp"
+			/>
+		
+		<TextView
+			
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:text="Quer anunciar no MoreCerto\nou dar alguma sugestão?\nEnvie uma mensagem para"
+			android:textSize="16dp"
+			android:gravity="center|bottom"
+			android:paddingRight="5dp"
+			android:paddingLeft="5dp"
+			android:paddingTop="5dp"
+			android:includeFontPadding="false"
+			android:background="#000000"
+			android:layout_above="@id/contact_email"
+			/>
+		
+
+		
+		</RelativeLayout>
 
 </LinearLayout>
