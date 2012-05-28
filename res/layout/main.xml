@@ -60,7 +60,7 @@
 					android:layout_height="fill_parent"
 					android:background="@drawable/search_bar_border"
 					android:layout_weight="1"
-					android:textSize="14dp" 
+					android:textSize="14dp"
 					android:inputType="none"
 					android:autoText="false"
 					android:lines="1"

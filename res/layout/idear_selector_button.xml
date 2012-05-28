@@ -1,0 +1,5 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true"
+        android:drawable="@drawable/idear_toolbar_red_button" /> <!-- pressed -->
+    <item android:drawable="@drawable/idear_toolbar_blue_button_normal" /> <!-- default/unchecked -->
+</selector>

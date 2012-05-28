@@ -96,15 +96,15 @@
 				android:layout_centerVertical="true"
 				android:visibility="gone"
 				/>
-					
-			<Button
-				android:id="@+id/right_text_button"
-				style="@style/toolbarButton"
-				android:layout_width="wrap_content"
+			<ToggleButton android:id="@+id/right_text_button"
+				android:layout_width="130dp"
 				android:layout_height="fill_parent"
+				android:textOn="Voltar ao Mapa"
+				android:textOff="Busca Avançada"
 				android:layout_alignParentRight="true"
 				android:visibility="invisible"
-				/>
+				android:background="@layout/idear_selector_button"
+				android:ellipsize="end"/>
 				
 			<ImageButton
 				android:id="@+id/right_image_button"

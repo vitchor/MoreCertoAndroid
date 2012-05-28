@@ -13,6 +13,7 @@ import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.br.morecerto.R;
 import com.br.morecerto.controller.utility.AnimationUtil;
@@ -23,7 +24,7 @@ public class IdearToolbar extends LinearLayout implements OnTouchListener, OnCli
 	private TextView mTitleTextView;
 	private Button mLeftTextButton;
 	private ImageButton mLeftImageButton;
-	private Button mRightTextButton;
+	private ToggleButton mRightTextButton;
 	private ImageButton mRightImageButton;
 	private ProgressBar mSpinner;
 
@@ -52,7 +53,7 @@ public class IdearToolbar extends LinearLayout implements OnTouchListener, OnCli
 		mLeftImageButton = (ImageButton) view.findViewById(R.id.left_image_button);
 		mLeftImageButton.setOnClickListener(this);
 		view.findViewById(R.id.right_side).setOnTouchListener(this);
-		mRightTextButton = (Button) view.findViewById(R.id.right_text_button);
+		mRightTextButton = (ToggleButton) view.findViewById(R.id.right_text_button);
 		mRightTextButton.setOnClickListener(this);
 		mRightImageButton = (ImageButton) view.findViewById(R.id.right_image_button);
 		mRightImageButton.setOnClickListener(this);
@@ -110,19 +111,19 @@ public class IdearToolbar extends LinearLayout implements OnTouchListener, OnCli
 
 	private void showTextButton(Button textButton, IdearTextItem item, boolean animate) {
 		if (item.getStyle() == IdearToolbarItem.BLUE_BUTTON) {
-			textButton.setBackgroundResource(R.drawable.idear_toolbar_blue_button);
+			//textButton.setBackgroundResource(R.drawable.idear_toolbar_blue_button);
 		} else if (item.getStyle() == IdearToolbarItem.GRAY_BUTTON) {
-			textButton.setBackgroundResource(R.drawable.toolbar_button);
+			//textButton.setBackgroundResource(R.drawable.toolbar_button);
 		}
-		textButton.setText(item.getTitle());
+		//textButton.setText(item.getTitle());
 		showView(textButton, animate);
 	}
 
 	private void showImageButton(ImageButton imageButton, IdearImageItem item, boolean animate) {
 		if (item.getStyle() == IdearToolbarItem.BLUE_BUTTON) {
-			imageButton.setBackgroundResource(R.drawable.idear_toolbar_blue_button);
+			//imageButton.setBackgroundResource(R.drawable.idear_toolbar_blue_button);
 		} else if (item.getStyle() == IdearToolbarItem.GRAY_BUTTON) {
-			imageButton.setBackgroundResource(R.drawable.toolbar_button);
+			//imageButton.setBackgroundResource(R.drawable.toolbar_button);
 		}
 		imageButton.setImageDrawable(item.getDrawable());
 		imageButton.setScaleType(ScaleType.CENTER_INSIDE);

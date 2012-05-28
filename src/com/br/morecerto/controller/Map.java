@@ -324,7 +324,7 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 
 		mSearchField.setLayoutParams(new LinearLayout.LayoutParams(width, LayoutParams.FILL_PARENT));
 
-		AnimationUtil.executeAnimation(this, R.anim.grow, mSearchField, View.VISIBLE, 50);
+		AnimationUtil.executeAnimation(this, R.anim.grow, mSearchField, View.VISIBLE, 100);
 		AnimationUtil.executeAnimation(this, R.anim.slide_out_top, mSearchMessageWrapper, View.GONE, 300);
 		AnimationUtil.executeAnimation(this, R.anim.fade_out, mSearchListWrapper, View.GONE);
 		mSearchField.invalidate();
