@@ -10,7 +10,7 @@
 	<com.br.morecerto.view.IdearToolbar
 		android:id="@+id/toolbar"
 		android:layout_width="fill_parent"
-		android:layout_height="30dp"
+		android:layout_height="45dp"
 		android:layout_alignParentTop="true"
 	/>
 	
@@ -50,7 +50,7 @@
 				android:layout_height="45dp"
 				android:padding="5dp" 
 				android:orientation="horizontal"
-				android:background="@drawable/toolbar"
+				android:background="@drawable/searchbar"
 				android:layout_alignParentTop = "true"
 				>
 			
@@ -62,7 +62,7 @@
 					android:layout_weight="1"
 					android:textSize="14dp" 
 					android:inputType="none"
-					android:autoText="false" 
+					android:autoText="false"
 					android:lines="1"
 					android:singleLine="true"
 					android:ellipsize="end"
@@ -72,7 +72,7 @@
 				<Button 
 					android:id="@+id/search_button"
 					android:visibility="gone"
-					style="@style/toolbarButton"
+					style="@style/toolbarGrayButton"
 					android:layout_width="wrap_content" 
 					android:layout_height="fill_parent"
 					android:layout_marginLeft="7dp" 
@@ -81,17 +81,18 @@
 			
 			</LinearLayout>
 		
-			<LinearLayout
+		<LinearLayout
 				android:layout_width="fill_parent"
 				android:layout_height="1dp"
-				android:background="#202020"
+				android:background="#606060"
 				/>
 				
 			<LinearLayout
 				android:layout_width="fill_parent"
 				android:layout_height="1dp"
-				android:background="#353535"
+				android:background="#585858"
 				/>
+				
 			
 		
 		</LinearLayout>

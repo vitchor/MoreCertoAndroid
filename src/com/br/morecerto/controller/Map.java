@@ -40,7 +40,9 @@ import com.br.morecerto.view.IdearListAdapter;
 import com.br.morecerto.view.IdearListItem;
 import com.br.morecerto.view.IdearMapView;
 import com.br.morecerto.view.IdearOverlay;
+import com.br.morecerto.view.IdearTextItem;
 import com.br.morecerto.view.IdearToolbar;
+import com.br.morecerto.view.IdearToolbarItem;
 import com.br.morecerto.view.OnFocusListener;
 import com.br.morecerto.view.OverlayItem;
 import com.google.android.maps.GeoPoint;
@@ -49,6 +51,8 @@ import com.google.android.maps.Overlay;
 
 public class Map extends MapActivity implements TextWatcher, OnDownloadListener, OnFocusChangeListener, OnClickListener, OnTouchListener, OnItemClickListener, OnFocusListener {
 
+	private static int MORE_INFORMATION = 1;
+	
 	// Views
 	private EditText mSearchField;
 	private IdearMapView mMapView;
@@ -80,6 +84,11 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 
 		findViewById(R.id.search_view).bringToFront();
 
+		mToolbar = (IdearToolbar) findViewById(R.id.toolbar);
+		IdearTextItem item = new IdearTextItem(MORE_INFORMATION, "Busca Avançada");
+		item.setStyle(IdearToolbarItem.BLUE_BUTTON);
+		mToolbar.setRightItem(item);
+		
 		mMapView = (IdearMapView) findViewById(R.id.map_view);
 		mMapView.setOnTouchListener(this);
 

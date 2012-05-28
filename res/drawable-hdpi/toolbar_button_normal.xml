@@ -5,14 +5,14 @@
 		android:color="#121212"
 		/>
 		
-	<padding 
+	<padding
 		android:left="10dp"
 		android:right="10dp"
 		android:top="7dp"
 		android:bottom="7dp"
 		/>
 		
-	<corners 
+	<corners
 		android:radius="5dp"
 		/>
 		
@@ -24,4 +24,4 @@
 		android:type="linear"
 		/>
 	
-</shape> 
+</shape>
