@@ -64,7 +64,7 @@ public class IdearToolbar extends LinearLayout implements OnTouchListener, OnCli
 		mListener = listener;
 
 	}
-
+	
 	public void setLeftItem(IdearToolbarItem item) {
 		mLeftItem = item;
 		boolean animate = mLeftItem != item;
@@ -190,9 +190,9 @@ public class IdearToolbar extends LinearLayout implements OnTouchListener, OnCli
 	public void onClick(View view) {
 		if (mListener != null) {
 			if (view == mLeftImageButton || view == mLeftTextButton) {
-				mListener.onToolbarItemClick(mLeftItem);
+				mListener.onToolbarItemClick(view);
 			} else if (view == mRightImageButton || view == mRightTextButton) {
-				mListener.onToolbarItemClick(mRightItem);
+				mListener.onToolbarItemClick(view);
 			}
 		}
 	}

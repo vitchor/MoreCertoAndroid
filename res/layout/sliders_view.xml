@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical"
+	android:background="#F5000000"
+	>
+
+	<TextView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="Utilize os seguintes parâmetros para refinar sua busca:"
+		android:textSize="17dp"
+		android:gravity="center"
+		android:padding="8dp"
+		android:layout_marginTop="20dp"
+		android:includeFontPadding="false"
+		android:background="@color/transparent"/>
+	
+	<LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:gravity="center"
+		android:padding="5dp"
+		android:layout_marginTop="8dp"
+		android:background="@color/transparent"
+		>
+	
+		<LinearLayout
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:paddingRight="35dp"
+			>
+		
+			<TextView
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="Bares"
+				android:textSize="14dp"
+				android:gravity="center"
+				/>
+				
+			<SeekBar
+				android:layout_width="120dp"
+				android:layout_height="20dp"
+				android:max="100"
+				android:progress="50"
+				android:layout_marginTop="5dp"/>
+				
+			<TextView
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="Bancos"
+				android:textSize="14dp"
+				android:gravity="center"
+				android:layout_marginTop="15dp"
+				/>	
+				
+			<SeekBar
+				android:layout_width="120dp"
+				android:layout_height="20dp"
+				android:max="100"
+				android:progress="50"
+				android:layout_marginTop="5dp"/>
+				
+			<TextView
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="Hospitais\ne Farmácias"
+				android:textSize="14dp"
+				android:gravity="center"
+				android:layout_marginTop="15dp"
+				/>	
+				
+			<SeekBar
+				android:layout_width="120dp"
+				android:layout_height="20dp"
+				android:max="100"
+				android:progress="50"
+				android:layout_marginTop="5dp"/>
+			
+			<TextView
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="Lojas"
+				android:textSize="14dp"
+				android:gravity="center"
+				android:layout_marginTop="15dp"
+				/>	
+				
+			<SeekBar
+				android:layout_width="120dp"
+				android:layout_height="20dp"
+				android:max="100"
+				android:progress="50"
+				android:layout_marginTop="5dp"/>
+		
+		</LinearLayout>
+		
+		
+		<LinearLayout
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			>
+		
+			<TextView
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="Restaurantes"
+				android:textSize="14dp"
+				android:gravity="center"
+				/>
+				
+			<SeekBar
+				android:layout_width="120dp"
+				android:layout_height="20dp"
+				android:max="100"
+				android:progress="50"
+				android:layout_marginTop="5dp"/>
+				
+			<TextView
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="Supermercados"
+				android:textSize="14dp"
+				android:gravity="center"
+				android:layout_marginTop="15dp"
+				/>	
+				
+			<SeekBar
+				android:layout_width="120dp"
+				android:layout_height="20dp"
+				android:max="100"
+				android:progress="50"
+				android:layout_marginTop="5dp"/>
+				
+			<TextView
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="Postos\nde Gasolina"
+				android:textSize="14dp"
+				android:gravity="center"
+				android:layout_marginTop="15dp"
+				/>	
+				
+			<SeekBar
+				android:layout_width="120dp"
+				android:layout_height="20dp"
+				android:max="100"
+				android:progress="50"
+				android:layout_marginTop="5dp"/>
+			
+			<TextView
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:text="Preço"
+				android:textSize="14dp"
+				android:gravity="center"
+				android:layout_marginTop="15dp"
+				/>	
+				
+			<SeekBar
+				android:layout_width="120dp"
+				android:layout_height="20dp"
+				android:max="100"
+				android:progress="50"
+				android:layout_marginTop="5dp"/>
+					
+		
+		</LinearLayout>
+	
+	</LinearLayout>
+
+</LinearLayout>

@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
+import android.view.ViewStub;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -24,6 +25,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.br.morecerto.R;
 import com.br.morecerto.controller.network.DataNode;
@@ -36,6 +38,7 @@ import com.br.morecerto.controller.utility.AnimationUtil;
 import com.br.morecerto.controller.utility.GeoUtil;
 import com.br.morecerto.controller.utility.NumberIcon;
 import com.br.morecerto.model.Realstate;
+import com.br.morecerto.view.IdearDialog;
 import com.br.morecerto.view.IdearListAdapter;
 import com.br.morecerto.view.IdearListItem;
 import com.br.morecerto.view.IdearMapView;
@@ -44,15 +47,16 @@ import com.br.morecerto.view.IdearTextItem;
 import com.br.morecerto.view.IdearToolbar;
 import com.br.morecerto.view.IdearToolbarItem;
 import com.br.morecerto.view.OnFocusListener;
+import com.br.morecerto.view.OnToolbarListener;
 import com.br.morecerto.view.OverlayItem;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.Overlay;
 
-public class Map extends MapActivity implements TextWatcher, OnDownloadListener, OnFocusChangeListener, OnClickListener, OnTouchListener, OnItemClickListener, OnFocusListener {
+public class Map extends MapActivity implements TextWatcher, OnDownloadListener, OnFocusChangeListener, OnClickListener, OnTouchListener, OnItemClickListener, OnFocusListener, OnToolbarListener {
 
 	private static int MORE_INFORMATION = 1;
-	
+
 	// Views
 	private EditText mSearchField;
 	private IdearMapView mMapView;
@@ -77,6 +81,8 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 	private android.view.ViewGroup.LayoutParams mSearchFieldParams;
 	private IdearService mIdearService;
 
+	private View mSlidersView;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -85,10 +91,11 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 		findViewById(R.id.search_view).bringToFront();
 
 		mToolbar = (IdearToolbar) findViewById(R.id.toolbar);
+		mToolbar.setOnToolbarListener(this);
 		IdearTextItem item = new IdearTextItem(MORE_INFORMATION, "Busca Avanada");
 		item.setStyle(IdearToolbarItem.BLUE_BUTTON);
 		mToolbar.setRightItem(item);
-		
+
 		mMapView = (IdearMapView) findViewById(R.id.map_view);
 		mMapView.setOnTouchListener(this);
 
@@ -124,6 +131,16 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 
 		mSearchbutton = (Button) findViewById(R.id.search_button);
 		mSearchbutton.setOnClickListener(this);
+
+		mSlidersView = ((ViewStub) findViewById(R.id.help_list_stub)).inflate();
+		mSlidersView.setVisibility(View.GONE);
+		mSlidersView.bringToFront();
+		mSlidersView.setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				return true;
+			}
+		});
 	}
 
 	@Override
@@ -244,14 +261,14 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 
 			mListAdapter = new IdearListAdapter(this, IdearListAdapter.IDEAR_DEFAULT_STYLE);
 			mListAdapter.setRowHeight(45);
-			
+
 			int i = 0;
 			for (DataNode dataNode : mSearchResult) {
 				final IdearListItem item = new IdearListItem(i, dataNode.findString("formatted_address", ""));
 				mListAdapter.addItem(item);
 				i++;
 			}
-			
+
 			mListView.setAdapter(mListAdapter);
 		}
 		if (mSearchResult.size() > 3) {
@@ -265,11 +282,10 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 		} else {
 			AnimationUtil.executeAnimation(this, R.anim.fade_out, mSearchListWrapper, View.GONE);
 
-			 
 			mListAdapter.notifyDataSetInvalidated();
 			mListView.invalidate();
-			//mListView.
-			//onContentChanged();
+			// mListView.
+			// onContentChanged();
 		}
 	}
 
@@ -399,6 +415,19 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 
 		}
 		return item;
+	}
+
+	@Override
+	public void onToolbarItemClick(View view) {
+		ToggleButton button = (ToggleButton) view;
+		if (button.isChecked()) {
+			//AnimationUtil.fadeIn(this, mSlidersView);
+			mSlidersView.setVisibility(View.VISIBLE);
+		} else {
+			//AnimationUtil.fadeOut(this, mSlidersView, View.GONE);
+			mSlidersView.setVisibility(View.GONE);
+		}
+
 	}
 
 }

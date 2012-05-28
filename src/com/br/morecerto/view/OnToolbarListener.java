@@ -1,7 +1,9 @@
 package com.br.morecerto.view;
 
+import android.view.View;
+
 public interface OnToolbarListener {
 	
-	public void onToolbarItemClick(IdearToolbarItem item);
+	public void onToolbarItemClick(View view);
 
 }
