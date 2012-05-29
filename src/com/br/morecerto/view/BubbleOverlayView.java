@@ -25,6 +25,7 @@ public class BubbleOverlayView<Item extends OverlayItem> extends FrameLayout imp
 	private TextView mSubtitle;
 	private ImageView mImage;
 	private ProgressBar mSpinner;
+	private TextView mSnippet;
 
 	public BubbleOverlayView(Context context, boolean isClickable) {
 		super(context);
@@ -41,7 +42,8 @@ public class BubbleOverlayView<Item extends OverlayItem> extends FrameLayout imp
 		params.gravity = Gravity.NO_GRAVITY;
 		layout.setVisibility(VISIBLE);
 		addView(layout, params);
-
+		
+		mSnippet = (TextView) view.findViewById(R.id.bubble_snippet);
 		mTitle = (TextView) view.findViewById(R.id.bubble_title);
 		mSubtitle = (TextView) view.findViewById(R.id.bubble_subtitle);
 		mImage = (ImageView) view.findViewById(R.id.image_view);
@@ -50,6 +52,11 @@ public class BubbleOverlayView<Item extends OverlayItem> extends FrameLayout imp
 		setClickable(isClickable);
 	}
 
+	public void setSnippet(String snippet) {
+		mSnippet.setVisibility(VISIBLE);
+		mSnippet.setText(snippet);
+	}
+	
 	public void setTitle(String title) {
 		mTitle.setVisibility(VISIBLE);
 		mTitle.setText(title);

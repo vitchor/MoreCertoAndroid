@@ -27,8 +27,8 @@
 		
 		<ImageView
 			android:id ="@+id/image_view"
-			android:layout_width ="60dp"
-			android:layout_height ="60dp"
+			android:layout_width ="75dp"
+			android:layout_height ="75dp"
 			android:scaleType="centerCrop"
 			android:src = "#000000"
 			android:background = "@drawable/square_border"
@@ -42,20 +42,22 @@
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content" 
 		android:orientation="vertical"
-		android:gravity="center"
+		android:gravity="center|left"
 		>
 		
 		<TextView 
 			android:id="@+id/bubble_title"
 			style ="@style/smallDarkShadow"
 			android:layout_height="wrap_content"
-			android:layout_width="wrap_content" 
-			android:paddingLeft="8dp"
+			android:layout_width="wrap_content"
+			android:paddingTop="2dp" 
+			android:paddingLeft="6dp"
 			android:textSize="16dp"
 			android:textColor="#ffffff"
 			android:singleLine="true"
 			android:ellipsize="end"
 			android:maxWidth="300dp"
+			android:includeFontPadding="false"
 			/>
 			
 		<TextView 
@@ -63,15 +65,31 @@
 			style ="@style/smallDarkShadow"
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
-			android:paddingTop="2dp"
-			android:paddingBottom="2dp"
-			android:paddingLeft="8dp"
+			android:paddingTop="4dp"
+			android:paddingBottom="7dp"
+			android:paddingLeft="6dp"
 			android:textSize="12dp"
 			android:textColor="#ffffff"
 			android:singleLine="true"
 			android:ellipsize="end"
 			android:clickable="true"
 			android:autoLink="web"
+			android:includeFontPadding="false"
+			/>
+		
+		<TextView 
+			android:id="@+id/bubble_snippet"
+			style ="@style/smallDarkShadow"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:paddingBottom="2dp"
+			android:paddingLeft="6dp"
+			android:textSize="15dp"
+			android:textColor="#ffffff"
+			android:singleLine="true"
+			android:ellipsize="end"
+			android:textStyle="bold"
+			android:includeFontPadding="false"
 			/>
 		
 		</LinearLayout>

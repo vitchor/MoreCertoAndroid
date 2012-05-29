@@ -24,7 +24,7 @@ public class IdearMapView extends MapView implements OnClickListener {
 		super(context, attrs);
 	}
 
-	private void showBubble(String title, String subtitle, String imageUrl, GeoPoint point, Object tag, boolean isClickable) {
+	private void showBubble(String title, String snippet, String subtitle, String imageUrl, GeoPoint point, Object tag, boolean isClickable) {
 		if (title != null && !title.equals("") && point != null) {
 
 			if (mDownloader == null) {
@@ -39,6 +39,8 @@ public class IdearMapView extends MapView implements OnClickListener {
 			MapView.LayoutParams params = new MapView.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, point, MapView.LayoutParams.BOTTOM_CENTER);
 			params.mode = MapView.LayoutParams.MODE_MAP;
 			addView(mBubbleOverlayView, params);
+			
+			mBubbleOverlayView.setSnippet(snippet);
 			mBubbleOverlayView.setTitle(title);
 			mBubbleOverlayView.setSubtitle(subtitle);
 			mBubbleOverlayView.setTag(tag);
@@ -55,7 +57,7 @@ public class IdearMapView extends MapView implements OnClickListener {
 
 	public void showBubble(OverlayItem item) {
 		if (item != null) {
-			showBubble(item.getTitle(), item.getSubtitle(), item.getImageUrl(), item.getPoint(), item.getTag(), item.isBubbleClickable());
+			showBubble(item.getTitle(), item.getSnippet(), item.getSubtitle(), item.getImageUrl(), item.getPoint(), item.getTag(), item.isBubbleClickable());
 		}
 	}
 

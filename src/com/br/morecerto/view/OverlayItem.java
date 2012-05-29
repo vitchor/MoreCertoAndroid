@@ -11,6 +11,7 @@ public class OverlayItem extends com.google.android.maps.OverlayItem implements 
 	private GeoPoint mPoint;
 	
 	private String mSubtitle;
+	private String mBody;
 	private String mImageUrl;
 	
 
@@ -33,8 +34,8 @@ public class OverlayItem extends com.google.android.maps.OverlayItem implements 
 		this.mPoint = point;
 	}
 
-	public OverlayItem(GeoPoint point, String address, String imageUrl, String subtitle, String id) {
-		super(point, address, address);
+	public OverlayItem(GeoPoint point, String title, String snippet, String imageUrl, String subtitle, String id) {
+		super(point, title, snippet);
 		this.tag = id;
 		this.mPoint = point;
 		this.mImageUrl = imageUrl;

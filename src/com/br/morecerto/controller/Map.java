@@ -27,6 +27,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -59,7 +61,7 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.Overlay;
 
-public class Map extends MapActivity implements TextWatcher, OnDownloadListener, OnFocusChangeListener, OnClickListener, OnTouchListener, OnItemClickListener, OnFocusListener, OnToolbarListener {
+public class Map extends MapActivity implements TextWatcher, OnDownloadListener, OnFocusChangeListener, OnClickListener, OnTouchListener, OnItemClickListener, OnFocusListener, OnToolbarListener, OnCheckedChangeListener {
 
 	private static int MORE_INFORMATION = 1;
 
@@ -82,6 +84,7 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 
 	// Models
 	private ArrayList<DataNode> mSearchResult = new ArrayList<DataNode>();
+	private String mSearchType = Realstate.TYPE_RENT;
 
 	// Others
 	private android.view.ViewGroup.LayoutParams mSearchFieldParams;
@@ -93,13 +96,14 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 
 	private ArrayList<Realstate> mActualRealstates;
 
+	private RadioGroup mRadioGroup;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
 		findViewById(R.id.search_view).bringToFront();
-
 		mToolbar = (IdearToolbar) findViewById(R.id.toolbar);
 		mToolbar.setOnToolbarListener(this);
 		IdearTextItem item = new IdearTextItem(MORE_INFORMATION, "Busca Avançada");
@@ -108,6 +112,9 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 
 		mMapView = (IdearMapView) findViewById(R.id.map_view);
 		mMapView.setOnTouchListener(this);
+
+		mRadioGroup = (RadioGroup) findViewById(R.id.radio_group);
+		mRadioGroup.setOnCheckedChangeListener(this);
 
 		LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
@@ -142,7 +149,8 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 		mIdearService = new IdearService();
 		mIdearService.setOnDownloadListener(this);
 		final GeoPoint point = mMapView.getMapCenter();
-		mIdearService.sendNearPlacesRequest(GeoUtil.toDegree(point.getLatitudeE6()), GeoUtil.toDegree(point.getLongitudeE6()), 1);
+
+		mIdearService.sendNearPlacesRequest(GeoUtil.toDegree(point.getLatitudeE6()), GeoUtil.toDegree(point.getLongitudeE6()), 1, mSearchType);
 
 		mSearchField = (EditText) findViewById(R.id.search_field);
 		mSearchField.addTextChangedListener(this);
@@ -183,6 +191,12 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 		});
 
 		setRankListeners();
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		UserRankings.clearRanking();
 	}
 
 	private void setRankListeners() {
@@ -226,7 +240,6 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 			bar = (SeekBar) mSlidersView.findViewById(R.id.price_rank);
 			connectBarToRank(bar, method);
 		} catch (Exception e) {
-			Log.i("GOOGLE", "Exception 1!" + e.toString());
 			e.printStackTrace();
 		}
 
@@ -244,13 +257,16 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+				if (progress == 0) {
+					progress = 1;
+				}
+
 				Object[] parameters = new Object[1];
 				parameters[0] = new Integer(progress);
 				Object obj = new UserRankings();
 				try {
 					method.invoke(obj, parameters);
 				} catch (Exception e) {
-					Log.i("GOOGLE", "Exception2!" + e.toString());
 					e.printStackTrace();
 				}
 			}
@@ -425,7 +441,8 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 
 			AnimationUtil.executeAnimation(this, R.anim.shrink, mSearchField, View.VISIBLE);
 			AnimationUtil.executeAnimation(this, R.anim.slide_in_right, mSearchbutton, View.VISIBLE);
-			AnimationUtil.executeAnimation(this, R.anim.slide_in_top, mSearchMessageWrapper, View.VISIBLE, 300);
+			AnimationUtil.executeAnimation(this, R.anim.slide_out_top, mRadioGroup, View.GONE, 300);
+			AnimationUtil.executeAnimation(this, R.anim.slide_in_top, mSearchMessageWrapper, View.VISIBLE, 600);
 
 		} else {
 
@@ -459,6 +476,7 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 
 		AnimationUtil.executeAnimation(this, R.anim.grow, mSearchField, View.VISIBLE, 100);
 		AnimationUtil.executeAnimation(this, R.anim.slide_out_top, mSearchMessageWrapper, View.GONE, 300);
+		AnimationUtil.executeAnimation(this, R.anim.slide_in_top, mRadioGroup, View.VISIBLE, 600);
 		AnimationUtil.executeAnimation(this, R.anim.fade_out, mSearchListWrapper, View.GONE);
 		mSearchField.invalidate();
 
@@ -476,7 +494,7 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 
 	private void sendNearPlacesRequest(GeoPoint point) {
 		mIdearService.clearQueue();
-		mIdearService.sendNearPlacesRequest(GeoUtil.toDegree(point.getLatitudeE6()), GeoUtil.toDegree(point.getLongitudeE6()), 1);
+		mIdearService.sendNearPlacesRequest(GeoUtil.toDegree(point.getLatitudeE6()), GeoUtil.toDegree(point.getLongitudeE6()), 1, mSearchType);
 
 	}
 
@@ -523,7 +541,7 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 			for (Realstate realstate : realstates) {
 				if (realstate.id.equals(item.getTag())) {
 					Log.i("GOOGLE", realstate.imageUrl);
-					item = new OverlayItem(item.getPoint(), realstate.address, realstate.imageUrl, realstate.agencyUrl, realstate.id);
+					item = new OverlayItem(item.getPoint(), realstate.address, "R$" + (int)realstate.price + ".00", realstate.imageUrl, realstate.agencyUrl, realstate.id);
 					item.setClickable(true);
 					// item.setBubbleClickable(true);
 					break;
@@ -544,6 +562,31 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 			// AnimationUtil.fadeOut(this, mSlidersView, View.GONE);
 			updateMap(mActualRealstates);
 			mSlidersView.setVisibility(View.GONE);
+		}
+
+	}
+
+	@Override
+	public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+		final String newSearchType;
+		if (checkedId == R.id.rent_radio_button) {
+			newSearchType = Realstate.TYPE_RENT;
+		} else {
+			newSearchType = Realstate.TYPE_BUY;
+		}
+
+		if (!newSearchType.equals(mSearchType)) {
+			mSearchType = newSearchType;
+
+			final GeoPoint point = mMapView.getMapCenter();
+			mIdearService.sendNearPlacesRequest(GeoUtil.toDegree(point.getLatitudeE6()), GeoUtil.toDegree(point.getLongitudeE6()), 1, mSearchType);
+
+			List<Overlay> mapOverlays = mMapView.getOverlays();
+			mapOverlays.clear();
+
+			mMapView.invalidate();
+
 		}
 
 	}

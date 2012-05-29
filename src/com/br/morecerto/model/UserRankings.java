@@ -1,6 +1,5 @@
 package com.br.morecerto.model;
 
-
 public class UserRankings {
 
 	public static int bankRating = 50;
@@ -16,9 +15,19 @@ public class UserRankings {
 		return priceRating;
 	}
 
-	public static int getSum(){
-		
+	public static int getSum() {
 		return bankRating + storeRating + barRating + gasStationRating + restaurantRating + marketRating + healthRating + priceRating;
+	}
+
+	public static void clearRanking() {
+		bankRating = 50;
+		storeRating = 50;
+		barRating = 50;
+		gasStationRating = 50;
+		restaurantRating = 50;
+		marketRating = 50;
+		healthRating = 50;
+		priceRating = 50;
 	}
 
 	public static void setPriceRating(Integer priceRating) {

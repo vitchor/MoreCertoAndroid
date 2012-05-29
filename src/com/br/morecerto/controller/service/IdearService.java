@@ -15,10 +15,9 @@ public class IdearService {
 	private OnDownloadListener mDownloadListener;
 	public static int REQUEST_NEAR_PLACES = 0;
 
-	public void sendNearPlacesRequest(double lat, double lng, double radius) {
-		send(new UrlAddress("http://www.morecerto.com.br/realestates/get"), "", "lat=" + lat + "&lng=" + lng + "&radius=" + radius, null, REQUEST_NEAR_PLACES, Response.JSON_TYPE, null, Downloader.DOWNLOADER_NORMAL_PRIORITY, "POST");
+	public void sendNearPlacesRequest(double lat, double lng, double radius, String type) {
+		send(new UrlAddress("http://www.morecerto.com.br/realestates/get"), "", "lat=" + lat + "&lng=" + lng + "&radius=" + radius + "&type=" + type, null, REQUEST_NEAR_PLACES, Response.JSON_TYPE, null, Downloader.DOWNLOADER_NORMAL_PRIORITY, "POST");
 	}
-
 
 	private synchronized void send(UrlAddress urlAddress, String path, String postRequest, String contentType, int type, int responseType, Object tag, int priority, String requestMethod) {
 		if (mDownloadListener != null) {
@@ -30,7 +29,7 @@ public class IdearService {
 			mDownloader.addRequest(urlAddress, path, postRequest, null, type, responseType, tag, priority, requestMethod);
 		}
 	}
-	
+
 	public void setOnDownloadListener(OnDownloadListener listener) {
 		if (listener != null) {
 			listener = IdearOnDownloadListener.getInstance(listener);
@@ -40,18 +39,17 @@ public class IdearService {
 		}
 		mDownloadListener = listener;
 	}
-	
+
 	public void cancelDownload() {
 		if (mDownloader != null) {
 			mDownloader.cancel(false);
 		}
 	}
-	
+
 	public void clearQueue() {
 		if (mDownloader != null) {
 			mDownloader.clearQueue();
 		}
 	}
-	
 
 }

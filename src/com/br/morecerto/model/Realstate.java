@@ -2,6 +2,8 @@ package com.br.morecerto.model;
 
 import java.util.ArrayList;
 
+import android.util.Log;
+
 import com.br.morecerto.controller.network.DataNode;
 import com.br.morecerto.controller.network.Response;
 
@@ -28,7 +30,7 @@ public class Realstate {
 	public double lat;
 	public double lng;
 
-	public double preco;
+	public double price;
 
 	public String agency;
 	public String agencyUrl;
@@ -43,6 +45,8 @@ public class Realstate {
 	public String state;
 
 	public String address;
+	
+	public static double biggestPrice = 1.0;
 
 	public String id;
 
@@ -51,7 +55,7 @@ public class Realstate {
 	}
 
 	private double getPriceRating() {
-		return 50;
+		return 100.0 - (price * 100.0 / biggestPrice);
 	}
 
 	public static ArrayList<Realstate> updateWithResponse(Response response) {
@@ -78,8 +82,10 @@ public class Realstate {
 				realstate.lat = Double.parseDouble(realstateNode.findString("lat", "0"));
 				realstate.lng = Double.parseDouble(realstateNode.findString("lng", "0"));
 
-				realstate.preco = Double.parseDouble(realstateNode.findString("preco", "0"));
-
+				realstate.price = Double.parseDouble(realstateNode.findString("price", "0"));
+				if (biggestPrice < realstate.price) {
+					biggestPrice = realstate.price;
+				}
 				realstate.agency = realstateNode.findString("agency", null);
 				realstate.agencyUrl = realstateNode.findString("url", null);
 
