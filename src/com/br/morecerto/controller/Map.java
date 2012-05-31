@@ -30,6 +30,7 @@ import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.RelativeLayout.LayoutParams;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -97,6 +98,7 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 	private ArrayList<Realstate> mActualRealstates;
 
 	private RadioGroup mRadioGroup;
+	private ScrollView mScrollView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -183,13 +185,7 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 		mSlidersView = ((ViewStub) findViewById(R.id.help_list_stub)).inflate();
 		mSlidersView.setVisibility(View.GONE);
 		mSlidersView.bringToFront();
-		mSlidersView.setOnTouchListener(new OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				return true;
-			}
-		});
-
+		
 		setRankListeners();
 	}
 
@@ -197,6 +193,12 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 	public void onDestroy() {
 		super.onDestroy();
 		UserRankings.clearRanking();
+		
+		mIdearService.setOnDownloadListener(null);
+		mIdearService.cancelDownload();
+		
+		mGoogleService.setOnDownloadListener(null);
+		mGoogleService.cancelDownload();
 	}
 
 	private void setRankListeners() {

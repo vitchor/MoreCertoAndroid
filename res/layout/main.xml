@@ -176,8 +176,8 @@
 			android:layout_centerHorizontal="true"
 			android:gravity="center"
 			android:background="@drawable/idear_bottom_rounded_bg"
-			android:paddingRight="5dp"
-			android:paddingLeft="5dp"
+			android:paddingRight="10dp"
+			android:paddingLeft="10dp"
 			>
 			
 			<RadioButton 
