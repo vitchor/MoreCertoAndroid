@@ -13,6 +13,9 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.GestureDetector.OnDoubleTapListener;
+import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,7 +33,6 @@ import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.RelativeLayout.LayoutParams;
-import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -62,7 +64,7 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.Overlay;
 
-public class Map extends MapActivity implements TextWatcher, OnDownloadListener, OnFocusChangeListener, OnClickListener, OnTouchListener, OnItemClickListener, OnFocusListener, OnToolbarListener, OnCheckedChangeListener {
+public class Map extends MapActivity implements TextWatcher, OnDownloadListener, OnFocusChangeListener, OnClickListener, OnTouchListener, OnItemClickListener, OnFocusListener, OnToolbarListener, OnCheckedChangeListener, OnGestureListener, OnDoubleTapListener {
 
 	private static int MORE_INFORMATION = 1;
 
@@ -98,7 +100,8 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 	private ArrayList<Realstate> mActualRealstates;
 
 	private RadioGroup mRadioGroup;
-	private ScrollView mScrollView;
+
+	private GestureDetector mMapGestureDetector;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -115,6 +118,9 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 		mMapView = (IdearMapView) findViewById(R.id.map_view);
 		mMapView.setOnTouchListener(this);
 
+		mMapGestureDetector = new GestureDetector(this, this);
+		mMapGestureDetector.setOnDoubleTapListener(this);
+
 		mRadioGroup = (RadioGroup) findViewById(R.id.radio_group);
 		mRadioGroup.setOnCheckedChangeListener(this);
 
@@ -124,12 +130,14 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 
 		if (mActuallocation != null) {
 			mMapView.getController().setCenter(new GeoPoint(GeoUtil.toMicroDegree(mActuallocation.getLatitude()), GeoUtil.toMicroDegree(mActuallocation.getLongitude())));
+			mMapView.getController().setZoom(16);
 		}
 
 		LocationListener locationListener = new LocationListener() {
 			public void onLocationChanged(Location location) {
 				if (mActuallocation == null || mActuallocation.distanceTo(location) > 300) {
 					mMapView.getController().setCenter(new GeoPoint(GeoUtil.toMicroDegree(location.getLatitude()), GeoUtil.toMicroDegree(location.getLongitude())));
+					mMapView.getController().setZoom(16);
 				}
 
 				final LocationManager locationManager = (LocationManager) Map.this.getSystemService(Context.LOCATION_SERVICE);
@@ -146,7 +154,11 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 			}
 		};
 
-		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+		try {
+			locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		mIdearService = new IdearService();
 		mIdearService.setOnDownloadListener(this);
@@ -185,7 +197,7 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 		mSlidersView = ((ViewStub) findViewById(R.id.help_list_stub)).inflate();
 		mSlidersView.setVisibility(View.GONE);
 		mSlidersView.bringToFront();
-		
+
 		setRankListeners();
 	}
 
@@ -193,10 +205,10 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 	public void onDestroy() {
 		super.onDestroy();
 		UserRankings.clearRanking();
-		
+
 		mIdearService.setOnDownloadListener(null);
 		mIdearService.cancelDownload();
-		
+
 		mGoogleService.setOnDownloadListener(null);
 		mGoogleService.cancelDownload();
 	}
@@ -318,11 +330,12 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 
 	@Override
 	public void onPreLoad(int type) {
+		Log.i("GOOGLE", "PRELOAD");
 	}
 
 	@Override
 	public void onLoad(Response response) {
-
+		Log.i("GOOGLE", "LOAD");
 		final int type = response.getRequest().getType();
 
 		if (type == IdearService.REQUEST_NEAR_PLACES) {
@@ -385,10 +398,16 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 
 	@Override
 	public void onError(int type, Request request, Exception exception) {
+		Log.i("GOOGLE", "ERROR");
+		Log.i("GOOGLE", "type: " + type);
+		if (exception != null){
+			Log.i("GOOGLE", "exception: " + exception.getStackTrace().toString());
+		}
 	}
 
 	@Override
 	public void onCancel() {
+		Log.i("GOOGLE", "CANCEL");
 	}
 
 	private void updateList() {
@@ -491,7 +510,8 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 			final GeoPoint point = mMapView.getMapCenter();
 			sendNearPlacesRequest(point);
 		}
-		return false;
+		return mMapGestureDetector.onTouchEvent(event);
+
 	}
 
 	private void sendNearPlacesRequest(GeoPoint point) {
@@ -543,7 +563,7 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 			for (Realstate realstate : realstates) {
 				if (realstate.id.equals(item.getTag())) {
 					Log.i("GOOGLE", realstate.imageUrl);
-					item = new OverlayItem(item.getPoint(), realstate.address, "R$" + (int)realstate.price + ".00", realstate.imageUrl, realstate.agencyUrl, realstate.id);
+					item = new OverlayItem(item.getPoint(), realstate.address, "R$" + (int) realstate.price + ".00", realstate.imageUrl, realstate.agencyUrl, realstate.id);
 					item.setClickable(true);
 					// item.setBubbleClickable(true);
 					break;
@@ -591,6 +611,60 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 
 		}
 
+	}
+
+	@Override
+	public boolean onDown(MotionEvent e) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void onLongPress(MotionEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void onShowPress(MotionEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public boolean onSingleTapUp(MotionEvent e) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean onDoubleTap(MotionEvent e) {
+		mMapView.getController().zoomInFixing((int) e.getX(), (int) e.getY());
+		return false;
+	}
+
+	@Override
+	public boolean onDoubleTapEvent(MotionEvent e) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean onSingleTapConfirmed(MotionEvent e) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

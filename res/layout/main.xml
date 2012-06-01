@@ -114,7 +114,9 @@
 			android:apiKey="0FnqUP7EgzaY-Y1BeJ9uIpKl4sqPfXYAbmfAdzA"
 			android:layout_weight="1"
 			android:layout_below = "@id/search_view"
-			/>
+			/> 
+			<!-- Debug: 0FnqUP7EgzaY-Y1BeJ9uIpKl4sqPfXYAbmfAdzA -->
+			<!-- Release: 0FnqUP7Egzab3EjlFSKjxYX1AFVzKuov7SqnGxw -->
 		
 		<LinearLayout
 			android:id="@+id/search_message_layout_wrapper"
