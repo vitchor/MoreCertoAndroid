@@ -183,7 +183,7 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 		mRequestSender = new Handler();
 
 		mListAdapter = new IdearListAdapter(this, IdearListAdapter.IDEAR_DEFAULT_STYLE);
-		mListAdapter.setRowHeight(45);
+		//mListAdapter.setRowHeight(45);
 
 		mListView = (ListView) findViewById(R.id.list_view);
 		mListView.setAdapter(mListAdapter);
@@ -414,7 +414,7 @@ public class Map extends MapActivity implements TextWatcher, OnDownloadListener,
 		if (mSearchResult != null) {
 
 			mListAdapter = new IdearListAdapter(this, IdearListAdapter.IDEAR_DEFAULT_STYLE);
-			mListAdapter.setRowHeight(45);
+			//mListAdapter.setRowHeight(45);
 
 			int i = 0;
 			for (DataNode dataNode : mSearchResult) {

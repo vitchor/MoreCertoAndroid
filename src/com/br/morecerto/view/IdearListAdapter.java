@@ -33,7 +33,7 @@ public class IdearListAdapter extends BaseAdapter {
 	private Drawable mDefaultRightChecked;
 	private LayoutInflater mInflater;
 	private int mStyle = -1;
-	private int rowHeight = -1;
+	private int rowHeight = 45;
 	private boolean mIsBoldEnabled = true;
 	private float titleSize = -1;
 	private OnCheckedChangeListener mOnCheckedChangeListener;
@@ -206,7 +206,7 @@ public class IdearListAdapter extends BaseAdapter {
 				holder.checkBox.setVisibility(View.GONE);
 			}
 			//Change height
-			if (rowHeight != -1) { 
+			if (rowHeight != -1 && rowHeight != 45) { 
 				LayoutParams params = convertView.getLayoutParams();
 				params.height = rowHeight;
 				convertView.setLayoutParams(params);
