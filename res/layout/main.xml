@@ -111,7 +111,7 @@
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
 			android:clickable="true"
-			android:apiKey="0FnqUP7EgzaY-Y1BeJ9uIpKl4sqPfXYAbmfAdzA"
+			android:apiKey="0FnqUP7Egzab3EjlFSKjxYX1AFVzKuov7SqnGxw"
 			android:layout_weight="1"
 			android:layout_below = "@id/search_view"
 			/> 
