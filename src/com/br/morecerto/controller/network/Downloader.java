@@ -68,7 +68,7 @@ public class Downloader extends AsyncTask<Object, Object, Object> {
 	public void clearQueue() {
 		mRequestQueue.removeAllElements();
 	}
-	
+
 	public Downloader(HttpURLConnection connection) {
 		super();
 		mConnection = connection;
@@ -325,7 +325,9 @@ public class Downloader extends AsyncTask<Object, Object, Object> {
 		request.setAttemptCount(request.getAttemptCount() - 1);
 		if (request.getAttemptCount() == 0) {
 			mIsConnected = false;
-			mRequestQueue.remove(0);
+			if (mRequestQueue.size() > 0) {
+				mRequestQueue.remove(0);
+			}
 			publishProgress(ERROR, request, exception);
 		}
 	}
